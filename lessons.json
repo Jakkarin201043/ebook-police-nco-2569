@@ -1,7 +1,7 @@
 {
- "version": 2,
+ "version": 3,
  "updated": "2026-09-28",
- "note": "Re-matched to actual book content (v6). videos[0] = primary clip used by the reader; others = per-subtopic clips shown in ห้องดูคลิป. Entries with 'search' are labelled YouTube searches where no specific video was found.",
+ "note": "Re-matched to actual book content (v7). All entries are real YouTube videos (oembed-verified); no search-link fallbacks.",
  "topics": [
   {
    "id": 0,
@@ -749,12 +749,13 @@
      "why": ""
     },
     {
-     "search": "ประมวลกฎหมายแพ่ง บุคคล นิติกรรม สอบนายสิบตำรวจ",
-     "url": "https://www.youtube.com/results?search_query=%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%A1%E0%B8%A7%E0%B8%A5%E0%B8%81%E0%B8%8E%E0%B8%AB%E0%B8%A1%E0%B8%B2%E0%B8%A2%E0%B9%81%E0%B8%9E%E0%B9%88%E0%B8%87%20%E0%B8%9A%E0%B8%B8%E0%B8%84%E0%B8%84%E0%B8%A5%20%E0%B8%99%E0%B8%B4%E0%B8%95%E0%B8%B4%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%20%E0%B8%AA%E0%B8%AD%E0%B8%9A%E0%B8%99%E0%B8%B2%E0%B8%A2%E0%B8%AA%E0%B8%B4%E0%B8%9A%E0%B8%95%E0%B8%B3%E0%B8%A3%E0%B8%A7%E0%B8%88",
-     "title": "ค้นหาใน YouTube: ประมวลกฎหมายแพ่ง บุคคล นิติกรรม สอบนายสิบตำรวจ",
-     "channel": "ผลการค้นหา YouTube",
+     "id": "mbff-bJk2Co",
+     "title": "กฎหมายแพ่งและพาณิชย์สำหรับตำรวจ บุคคลนิติกรรม  ๑",
+     "channel": "BaanNine SongKhla",
+     "url": "https://www.youtube.com/watch?v=mbff-bJk2Co",
      "sub": "3. ป.แพ่งฯ บุคคล–นิติกรรม",
-     "desc": "ยังไม่พบคลิปที่ตรงหัวข้อนี้พอ — เปิดผลค้นหา YouTube สำหรับหัวข้อนี้แทน"
+     "desc": "บรรยายกฎหมายแพ่งและพาณิชย์สำหรับตำรวจ เรื่องบุคคลและนิติกรรม ตรงกับสรุปในเล่มเรื่องสภาพบุคคล (ม.15) ความสามารถของผู้เยาว์ คนไร้ความสามารถ คนเสมือนไร้ความสามารถ และนิติกรรมโมฆะ–โมฆียะ",
+     "why": "ชื่อคลิประบุชัดว่าสำหรับตำรวจ + บุคคลนิติกรรม และครอบคลุมหัวข้อเดียวกับข้อ 3 ในสรุปกฎหมายของเล่ม (เดิมเป็นลิงก์ค้นหาเพราะยังไม่พบคลิปเฉพาะ)"
     },
     {
      "id": "E-QzIGA_tmY",

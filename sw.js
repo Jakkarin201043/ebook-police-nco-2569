@@ -1,5 +1,5 @@
 /* Offline service worker for the e-book reader */
-const VERSION='v6';
+const VERSION='v7';
 const CACHE='ebook-police-nco-2569-'+VERSION;
 const ASSETS=['./','./index.html','./videos.html','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./lessons.json'];
 self.addEventListener('install',e=>{
