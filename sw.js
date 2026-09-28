@@ -1,7 +1,7 @@
 /* Offline service worker for the e-book reader */
-const VERSION='v4';
+const VERSION='v5';
 const CACHE='ebook-police-nco-2569-'+VERSION;
-const ASSETS=['./','./index.html','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
+const ASSETS=['./','./index.html','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./lessons.json'];
 self.addEventListener('install',e=>{
   // bypass the HTTP cache so a new version never precaches stale files
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()));
@@ -22,6 +22,11 @@ self.addEventListener('fetch',e=>{
   if(req.mode==='navigate'){
     // network-first (fresh version when online), cached copy when offline / slow
     e.respondWith(fromNetwork(req,4000).catch(()=>caches.match('./index.html',{ignoreSearch:true})));
+    return;
+  }
+  if(url.pathname.endsWith('/lessons.json')){
+    // editable data: network-first, cached copy offline
+    e.respondWith(fetch(req,{cache:'no-cache'}).then(r=>{if(r&&r.ok){const cp=r.clone();caches.open(CACHE).then(c=>c.put('./lessons.json',cp))}return r}).catch(()=>caches.match('./lessons.json',{ignoreSearch:true})));
     return;
   }
   e.respondWith(caches.match(req,{ignoreSearch:true}).then(hit=>hit||fetch(req).then(res=>{

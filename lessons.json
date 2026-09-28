@@ -1,0 +1,447 @@
+{
+  "version": 1,
+  "note": "Thai police NCO admin exam tutorial videos. Edit freely; user overrides saved in localStorage.",
+  "topics": [
+    {
+      "id": 0,
+      "t": "ข้อควรทราบก่อนใช้เอกสาร",
+      "p": 2,
+      "videos": [
+        {
+          "id": "VacdRXSemb4",
+          "title": "\"สอบตำรวจ\" วางแผนอ่านหนังสือ สอบตำรวจ ใช้ได้ทันที",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=VacdRXSemb4"
+        },
+        {
+          "id": "B8xWuwbm5c4",
+          "title": "\"สอบตำรวจ\" : หลักสูตรติวฟรี นายสิบตำรวจ ปรับพื้นฐาน 0-100 ต้องดู",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=B8xWuwbm5c4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "t": "สารบัญ",
+      "p": 2,
+      "videos": [
+        {
+          "id": "YmZ5K4r9AuA",
+          "title": "\"สอบตำรวจ\" ติวข้อสอบนายสิบตำรวจทุกสายงาน รวมทุกวิชา",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=YmZ5K4r9AuA"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "t": "ภาพรวมการสอบและเทคนิคการเตรียมตัว",
+      "p": 4,
+      "videos": [
+        {
+          "id": "h6NZOjuFMfE",
+          "title": "\"สอบตำรวจ\" : เจาะข้อสอบนายสิบตำรวจ 67 สายอำนวยการ Series 1",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=h6NZOjuFMfE"
+        },
+        {
+          "id": "VacdRXSemb4",
+          "title": "\"สอบตำรวจ\" วางแผนอ่านหนังสือ สอบตำรวจ ใช้ได้ทันที",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=VacdRXSemb4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "t": "วิชาที่ 1 ความสามารถทั่วไป",
+      "p": 6,
+      "videos": [
+        {
+          "id": "8FKO7zVMwek",
+          "title": "ข้อสอบตำรวจ : วิชาความสามารถทั่วไป เทคนิคลัด ออกข้อสอบบ่อย",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=8FKO7zVMwek"
+        },
+        {
+          "id": "DROX1Zp_QuU",
+          "title": "\"สอบตำรวจ\" ตะลุยข้อสอบนายสิบตำรวจ เจาะลึกวิชาคณิตศาสตร์ รวมเทคนิค",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=DROX1Zp_QuU"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "t": "สรุปเนื้อหาสำคัญ",
+      "p": 6,
+      "parent": 3,
+      "videos": [
+        {
+          "id": "5jDg21gynuk",
+          "title": "สรุปเนื้อหาเตรียมสอบนายสิบตำรวจ ความสามารถทั่วไป (คณิตศาสตร์) [EP1]",
+          "channel": "kunkrootum",
+          "url": "https://www.youtube.com/watch?v=5jDg21gynuk"
+        },
+        {
+          "id": "eYgbvqv0dKk",
+          "title": "ติวสอบนายสิบตำรวจ เรื่องอัตราส่วน - ร้อยละ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=eYgbvqv0dKk"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "t": "แนวข้อสอบ (28 ข้อ)",
+      "p": 9,
+      "parent": 3,
+      "videos": [
+        {
+          "id": "NUGZaw0r_1o",
+          "title": "EP.2 ความสามารถทั่วไป ข้อสอบนายสิบตำรวจ",
+          "channel": "ติวนายสิบตำรวจ by ครูหมูอ้วน",
+          "url": "https://www.youtube.com/watch?v=NUGZaw0r_1o"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "t": "เฉลยพร้อมวิธีทำ",
+      "p": 13,
+      "parent": 3,
+      "videos": [
+        {
+          "id": "IUoCVTkWKJc",
+          "title": "เฉลยข้อสอบคณิตศาสตร์ นายสิบตำรวจ 27 เม.ย. 68 รอบล่าสุด | เจาะข้อจริง",
+          "channel": "ครูนุ๊ก",
+          "url": "https://www.youtube.com/watch?v=IUoCVTkWKJc"
+        },
+        {
+          "id": "wtYkDQ9UkQM",
+          "title": "\"สอบตำรวจ\" : ข้อสอบจริงนายสิบตำรวจ67 วิชาเลข + กฎหมาย ทุกสายงาน",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=wtYkDQ9UkQM"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "t": "วิชาที่ 2 ภาษาไทย",
+      "p": 18,
+      "videos": [
+        {
+          "id": "FDGrJfsi61E",
+          "title": "“สอบตำรวจ” ภาษาไทย [ตอนเดียวจบ] | สอบนายสิบตำรวจ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=FDGrJfsi61E"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "t": "สรุปเนื้อหาสำคัญ",
+      "p": 18,
+      "parent": 7,
+      "videos": [
+        {
+          "id": "Yxn4Vi5C1R4",
+          "title": "\"สอบตำรวจ\" ติวตำรวจ ! สรุปจุดเน้น พร้อมสอบตำรวจ ภาษาไทย เอกสารฟรี",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=Yxn4Vi5C1R4"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "t": "แนวข้อสอบ (26 ข้อ)",
+      "p": 21,
+      "parent": 7,
+      "videos": [
+        {
+          "id": "_DREipT_SQM",
+          "title": "ข้อสอบจริงตำรวจ ปี 55 - 65 (วิชาภาษาไทย)",
+          "channel": "Neo Police ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=_DREipT_SQM"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "t": "เฉลยพร้อมวิธีทำ",
+      "p": 25,
+      "parent": 7,
+      "videos": [
+        {
+          "id": "tz6aYrtvrJ0",
+          "title": "[เฉลยข้อสอบเก่านายสิบตำรวจ] EP1 วิชาภาษาไทย",
+          "channel": "AWS Family",
+          "url": "https://www.youtube.com/watch?v=tz6aYrtvrJ0"
+        },
+        {
+          "id": "mrGnc0QLlTk",
+          "title": "เฉลยข้อสอบเสมือนจริง วิชาภาษาไทย นายสิบ 1,000 ข้อ EP.1",
+          "channel": "ติวสอบภาษาไทย by ครูติ๊ก",
+          "url": "https://www.youtube.com/watch?v=mrGnc0QLlTk"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "t": "วิชาที่ 3 ภาษาอังกฤษ (English)",
+      "p": 29,
+      "videos": [
+        {
+          "id": "keVxrdUSApA",
+          "title": "ติวเข้มนายสิบอำนวยการ ติวเข้มวิชาภาษาอังกฤษ EP.1",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=keVxrdUSApA"
+        },
+        {
+          "id": "BeTQEQEmPY0",
+          "title": "\"ติวสอบตำรวจ\" ภาษาอังกฤษ สอบตำรวจ ตอนที่ 1",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=BeTQEQEmPY0"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "t": "สรุปเนื้อหาสำคัญ",
+      "p": 29,
+      "parent": 11,
+      "videos": [
+        {
+          "id": "9N5UntIp-yE",
+          "title": "ติวสอบตำรวจ สรุป Grammar | พี่เต้ติวสอบตำรวจ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=9N5UntIp-yE"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "t": "แนวข้อสอบ (24 ข้อ)",
+      "p": 32,
+      "parent": 11,
+      "videos": [
+        {
+          "id": "GehK7aejv1w",
+          "title": "ข้อสอบตำรวจ ภาษาอังกฤษ ทุกพาร์ท + พร้อมเทคนิค เต็มชัวร์",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=GehK7aejv1w"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "t": "เฉลยพร้อมวิธีทำ",
+      "p": 35,
+      "parent": 11,
+      "videos": [
+        {
+          "id": "GehK7aejv1w",
+          "title": "ข้อสอบตำรวจ ภาษาอังกฤษ ทุกพาร์ท + พร้อมเทคนิค เต็มชัวร์",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=GehK7aejv1w"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "t": "วิชาที่ 4 เทคโนโลยีสารสนเทศ",
+      "p": 38,
+      "videos": [
+        {
+          "id": "Z-7-z7HePtY",
+          "title": "ติวสอบตำรวจอำนวยการ ปูพื้นฐานคอมพิวเตอร์ นายสิบอำนวยการ EP.1/5",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=Z-7-z7HePtY"
+        },
+        {
+          "id": "m_ZbNY_Q4LI",
+          "title": "สรุปเนื้อหาเตรียมสอบนายสิบตำรวจ วิชาเทคโนโลยีสารสนเทศ [EP1]",
+          "channel": "kunkrootum",
+          "url": "https://www.youtube.com/watch?v=m_ZbNY_Q4LI"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "t": "สรุปเนื้อหาสำคัญ",
+      "p": 38,
+      "parent": 15,
+      "videos": [
+        {
+          "id": "m_ZbNY_Q4LI",
+          "title": "สรุปเนื้อหาเตรียมสอบนายสิบตำรวจ วิชาเทคโนโลยีสารสนเทศ [EP1]",
+          "channel": "kunkrootum",
+          "url": "https://www.youtube.com/watch?v=m_ZbNY_Q4LI"
+        },
+        {
+          "id": "BeHWTAStwJw",
+          "title": "\"ติวสอบตำรวจ\" ติวคอมพิวเตอร์ สอบตำรวจ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=BeHWTAStwJw"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "t": "แนวข้อสอบ (44 ข้อ)",
+      "p": 42,
+      "parent": 15,
+      "videos": [
+        {
+          "id": "DaGjPY1kdXU",
+          "title": "\"สอบตำรวจ\" : เจาะข้อสอบนายสิบตำรวจทุกสายงาน วิชาคอมพิวเตอร์",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=DaGjPY1kdXU"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "t": "เฉลยพร้อมวิธีทำ",
+      "p": 48,
+      "parent": 15,
+      "videos": [
+        {
+          "id": "fcT3IBAQNNc",
+          "title": "\"สอบตำรวจ\" - คอมพิวเตอร์และเทคโนโลยี สอบตำรวจ นายสิบตำรวจ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=fcT3IBAQNNc"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "t": "วิชาที่ 5 ระเบียบงานสารบรรณ",
+      "p": 54,
+      "videos": [
+        {
+          "id": "RPKJDZq0zpE",
+          "title": "\"สอบตำรวจ\" ติว+แจกฟรีเอกสาร วิชา ระเบียบงานสารบรรณ (1/2)",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=RPKJDZq0zpE"
+        },
+        {
+          "id": "AdDoB97arPc",
+          "title": "\"สอบตำรวจ\" GURU Podcast : วิชาระเบียบงานสารบรรณ EP1",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=AdDoB97arPc"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "t": "สรุปเนื้อหาสำคัญ",
+      "p": 54,
+      "parent": 19,
+      "videos": [
+        {
+          "id": "AdDoB97arPc",
+          "title": "\"สอบตำรวจ\" GURU Podcast : วิชาระเบียบงานสารบรรณ EP1",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=AdDoB97arPc"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "t": "แนวข้อสอบ (41 ข้อ)",
+      "p": 59,
+      "parent": 19,
+      "videos": [
+        {
+          "id": "uj4KOkVWRSE",
+          "title": "ติวสอบตำรวจอำนวยการ สรุปข้อสอบระเบียบงานสารบรรณ นายสิบอำนวยการ EP.1/5",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=uj4KOkVWRSE"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "t": "เฉลยพร้อมวิธีทำ",
+      "p": 65,
+      "parent": 19,
+      "videos": [
+        {
+          "id": "SVt1JhpHjZM",
+          "title": "ตำรวจสายอำนวยการ รวมจุดออกสอบงานสารบรรณ",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=SVt1JhpHjZM"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "t": "วิชาที่ 6 กฎหมายที่ประชาชนควรรู้",
+      "p": 71,
+      "videos": [
+        {
+          "id": "GHtOmukRXx0",
+          "title": "\"สอบตำรวจ\" สรุปหลักกฎหมาย | พี่เต้ติวสอบตำรวจ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=GHtOmukRXx0"
+        },
+        {
+          "id": "oYuA-Xg6YRc",
+          "title": "ติวสอบตำรวจอำนวยการ สรุปข้อสอบกฎหมาย นายสิบอำนวยการ EP.1",
+          "channel": "พี่บัส GURU POLICE",
+          "url": "https://www.youtube.com/watch?v=oYuA-Xg6YRc"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "t": "สรุปเนื้อหาสำคัญ",
+      "p": 71,
+      "parent": 23,
+      "videos": [
+        {
+          "id": "SVgqioIwoxo",
+          "title": "ep1 : กฎหมายที่ประชาชนควรรู้ (สำหรับสอบนายสิบตำรวจ) ตอนกฎหมายพิเศษ ๑-๑",
+          "channel": "Ad-lib law",
+          "url": "https://www.youtube.com/watch?v=SVgqioIwoxo"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "t": "แนวข้อสอบ (35 ข้อ)",
+      "p": 76,
+      "parent": 23,
+      "videos": [
+        {
+          "id": "aFiWekYOzAg",
+          "title": "“สอบตำรวจ” รวมข้อสอบเก่า กฎหมาย | สอบนายสิบตำรวจ สายอำนวยการ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=aFiWekYOzAg"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "t": "เฉลยพร้อมวิธีทำ",
+      "p": 81,
+      "parent": 23,
+      "videos": [
+        {
+          "id": "hQElA94CkLo",
+          "title": "เฉลยกฎหมายที่ประชาชนควรรู้ข้อสอบนายสิบตำรวจ",
+          "channel": "ติวสอบนายสิบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=hQElA94CkLo"
+        },
+        {
+          "id": "AVlDFiTMBQc",
+          "title": "\"สอบตำรวจ\" ข้อสอบ กฎหมาย | พี่เต้ติวสอบตำรวจ",
+          "channel": "พี่เต้ - Ptae ติวสอบตำรวจ",
+          "url": "https://www.youtube.com/watch?v=AVlDFiTMBQc"
+        }
+      ]
+    }
+  ]
+}
