@@ -127,7 +127,7 @@ body.erase #hlOverlay{cursor:cell}
 .hl-it{display:flex;align-items:center;gap:10px;padding:8px 6px;border-radius:10px;cursor:pointer}
 .hl-it:hover{background:var(--ui-line)}
 .hl-it .swc{width:12px;align-self:stretch;min-height:30px;border-radius:4px;flex:none}
-.hl-it .tx{flex:1;min-width:0;font-size:13.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hl-it .tx{flex:1;min-width:0;font-size:13.5px;line-height:1.45;overflow:hidden}
 .hl-it .x{opacity:.6}.hl-it .x:hover{opacity:1;color:#dc2626}
 body.zoomed .stf__parent{touch-action:pan-x pan-y}
 body.zoomed:not(.hl-mode) #stage{cursor:grab}
@@ -220,6 +220,23 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
 .seg{display:flex;background:var(--ui-line);border-radius:10px;padding:3px;gap:2px}
 .seg button{border:0;background:transparent;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;flex:1}
 .seg button.on{background:var(--panel-bg);box-shadow:0 1px 4px rgba(0,0,0,.2);font-weight:600}
+
+.hl-user svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hl-user .hlp{mix-blend-mode:multiply;opacity:.5}
+.hl-user rect.hlp{opacity:.55}
+.hl-user .pen{opacity:.95}
+body.theme-night .hl-user .hlp{mix-blend-mode:screen;opacity:.4}
+body.theme-night .hl-user .pen{filter:invert(.88) hue-rotate(180deg)}
+.hlnibs,.hlacts{display:inline-flex;gap:4px;align-items:center}
+.nib{width:30px;height:30px;border-radius:8px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;padding:0}
+.nib i{display:block;border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,.28)}
+.nib.on{background:var(--ui-line);box-shadow:inset 0 0 0 2px var(--accent)}
+#hlBar{flex-wrap:wrap;justify-content:center;width:max-content;max-width:96vw;border-radius:20px;row-gap:6px}
+.hlmini{width:64px;height:40px;flex:none;background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.hl-it .tx b{display:block;font-size:13px;font-weight:600}
+.hl-it .tx .sn{display:block;color:var(--ui-sub);font-size:12.5px}
+.hl-it .tx{display:block}
+@media (max-width:900px){.navarrow{display:none}#holder{padding:14px 10px}}
 @media (max-width:1020px){.hide-md{display:none!important}}
 #installTip{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:85;display:none;align-items:center;gap:10px;width:max-content;max-width:92vw;background:var(--panel-bg);color:var(--ui-fg);padding:12px 14px;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.4);font-size:14px;line-height:1.5}
 #installTip.show{display:flex}
@@ -233,7 +250,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   .btn{min-width:34px;padding:0 6px}
   #drawer{width:100vw;max-width:100vw}
   .bottombar{gap:6px;padding:6px 10px}
-  #hlBar{gap:5px;padding:6px 8px}#hlBar .hlseg span,#hlBar #hlClearPage span{display:none}
+  #hlBar{gap:5px;padding:6px 8px}#hlBar .hlseg span,#hlBar #hlClearPage span,#hlBar #hlUndo span{display:none}
 }
 </style>
 </head>
@@ -265,6 +282,8 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
   <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l10-10a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L13 19"/><path d="M22 21H7M5 11l9 9"/></symbol>
+  <symbol id="i-marker" viewBox="0 0 24 24"><path d="m15 5 4 4"/><path d="M13 7 5.5 14.5 4 20l5.5-1.5L17 11"/><path d="M3 22h8" stroke-width="3" stroke-opacity=".5"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol>
   <symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
  </defs>
 </svg>
@@ -313,11 +332,14 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   <div id="holder"></div>
  </main>
  <div id="hlBar">
-   <div class="seg hlseg" id="hlModeSeg"><button data-m="pen" class="on" title="ปากกา: ลากเพื่อไฮไลต์ แตะไฮไลต์เพื่อเลือก"><svg class="i"><use href="#i-pen"/></svg><span>ปากกา</span></button><button data-m="erase" title="ยางลบ: แตะหรือลากผ่านไฮไลต์เพื่อลบ"><svg class="i"><use href="#i-eraser"/></svg><span>ยางลบ</span></button></div>
-   <span class="hlcolors"><button class="sw on" data-c="#fde047" style="background:#fde047"></button><button class="sw" data-c="#86efac" style="background:#86efac"></button><button class="sw" data-c="#f9a8d4" style="background:#f9a8d4"></button><button class="sw" data-c="#93c5fd" style="background:#93c5fd"></button></span>
+   <div class="seg hlseg" id="hlModeSeg"><button data-m="hl" title="ปากกาไฮไลต์ (โปร่งแสง)"><svg class="i"><use href="#i-marker"/></svg><span>ไฮไลต์</span></button><button data-m="pen" title="ปากกาเขียน (หมึกทึบ)"><svg class="i"><use href="#i-pen"/></svg><span>ปากกา</span></button><button data-m="erase" title="ยางลบ: ลบทั้งเส้น"><svg class="i"><use href="#i-eraser"/></svg><span>ยางลบ</span></button></div>
+   <span class="hlcolors" id="hlColors"></span>
+   <span class="hlnibs" id="hlNibs"></span>
+   <span class="hlacts">
+   <button class="smallbtn" id="hlUndo" title="ย้อนกลับ (Ctrl+Z)"><svg class="i"><use href="#i-undo"/></svg><span>ย้อนกลับ</span></button>
    <button class="smallbtn danger" id="hlClearPage" title="ลบไฮไลต์ทั้งหมดในหน้าที่เปิดอยู่"><svg class="i"><use href="#i-trash"/></svg><span>ล้างหน้านี้</span></button>
    <button class="smallbtn" id="hlListBtn" title="รายการไฮไลต์ทั้งหมด"><svg class="i"><use href="#i-list"/></svg><span class="hide-sm">รายการ</span></button>
-   <button class="btn" id="hlDone" style="height:30px;background:var(--accent);color:#fff">เสร็จ</button></div>
+   <button class="btn" id="hlDone" style="height:32px;background:var(--accent);color:#fff">เสร็จ</button></span></div>
  <div id="hlOverlay"></div>
  <button id="hlDel" aria-label="ลบไฮไลต์นี้"><svg class="i"><use href="#i-trash"/></svg>ลบไฮไลต์</button>
  <button class="navarrow" id="prevArrow" aria-label="หน้าก่อนหน้า"><svg class="i"><use href="#i-left"/></svg></button>
@@ -368,7 +390,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   <span><kbd>Ctrl</kbd>+<kbd>F</kbd> <kbd>/</kbd></span><span>ค้นหาข้อความ</span>
   <span><kbd>B</kbd></span><span>คั่นหน้า / เอาที่คั่นออก</span>
   <span><kbd>N</kbd></span><span>เพิ่มบันทึกในหน้านี้</span>
-  <span><kbd>H</kbd></span><span>ปากกาไฮไลต์ (ลากเพื่อระบาย • แตะไฮไลต์เพื่อเลือก แล้วกด “ลบไฮไลต์” หรือ <kbd>Delete</kbd> • มีโหมดยางลบและปุ่มล้างหน้านี้)</span>
+  <span><kbd>H</kbd></span><span>ปากกาไฮไลต์แบบลากอิสระ (นิ้ว / Apple Pencil / เมาส์) • เลือกสีและขนาดหัวปากกา • ยางลบลบทั้งเส้น • <kbd>Ctrl</kbd>+<kbd>Z</kbd> ย้อนกลับ • แตะเส้นเพื่อเลือกแล้วกด “ลบไฮไลต์”</span>
   <span><kbd>+</kbd><kbd>−</kbd><kbd>0</kbd></span><span>ขยาย / ย่อ ทีละ 10% (70–200%) / พอดีหน้าจอ • บน iPad ใช้สองนิ้วถ่างเพื่อซูมอย่างนุ่มนวล และลากเพื่อเลื่อนดูเมื่อขยายอยู่</span>
   <span><kbd>M</kbd></span><span>สลับโหมด กลางวัน → ซีเปีย → กลางคืน</span>
   <span><kbd>S</kbd></span><span>เปิด/ปิดเสียงพลิกหน้า</span>
@@ -442,7 +464,7 @@ const BOOK={"id": "a27aa88fb6", "title": "แนวข้อสอบนาย�
 <script>(()=>{
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const APP_VERSION='v2';
+const APP_VERSION='v3';
 const NP=BOOK.pages, TOTAL=NP+1, RATIO=BOOK.w/BOOK.h, KEY='ebook:'+BOOK.id, THEMES=['day','sepia','night'];
 let S={page:0,bookmarks:[],notes:{},hl:{},theme:'day',sound:true,zoom:1};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
@@ -493,8 +515,8 @@ function playFlip(){
 /* book construction */
 function computeSize(){
  const st=$('#stage');const W=st.clientWidth, H=st.clientHeight;
- single = W<760 || W/H<1.05;
- const padX= W<700?16:(IS_IOS?124:140), padY= W<700?20:(IS_IOS?36:56);
+ single = W<500;                                   // two-page spread everywhere except very small phones
+ const padX= W<500?16:(W<900?22:(IS_IOS?124:140)), padY= W<500?20:(W<900?30:(IS_IOS?36:56));
  const aw=W-padX, ah=H-padY;
  let h=Math.min(ah,(single?aw:aw/2)/RATIO); h=Math.max(h,180);
  h=Math.floor(h*S.zoom); const w=Math.floor(h*RATIO);
@@ -743,29 +765,62 @@ function cfDone(v){$('#confirmModal').classList.remove('show');if(cfResolve){con
 $('#cfOk').onclick=()=>cfDone(true);
 $('#confirmModal').addEventListener('click',e=>{if(e.target.id==='confirmModal'||e.target.closest('[data-cancel]'))cfDone(false)});
 
-/* ---------- highlights: draw / select / erase / list ---------- */
+/* ---------- highlights: freehand strokes (highlighter / pen), eraser, undo, list ---------- */
 let hlSeq=Date.now()%100000;
 const newId=()=>'h'+(hlSeq++).toString(36);
 Object.keys(S.hl).forEach(p=>{if(!Array.isArray(S.hl[p])||!S.hl[p].length){delete S.hl[p];return}S.hl[p].forEach(h=>{if(!h.id)h.id=newId()})});
-let hlColor='#fde047', hlMode='pen', hlStart=null, hlPage=0, hlSel=null;
+const VW=1000, VH=Math.round(1000/RATIO*10)/10;          // SVG viewBox in page-relative units
+const NIBS=[.005,.009,.014,.021,.03];                      // stroke width as fraction of page width
+const COLORS={hl:['#fde047','#86efac','#f9a8d4','#93c5fd'],pen:['#dc2626','#1d4ed8','#111827','#15803d']};
+const TOOL=Object.assign({mode:'hl',hlc:'#fde047',penc:'#dc2626',nib:2},S.tool||{});
+let hlStart=null, hlPage=0, hlSel=null, penSeen=false, undoStack=[];
+const hlMode=()=>TOOL.mode;
+function saveTool(){S.tool=TOOL;save()}
 function hlCount(p){return (S.hl[p]||[]).length}
 function hlTotal(){return Object.keys(S.hl).reduce((a,p)=>a+hlCount(p),0)}
+const r1=v=>Math.round(v*10)/10;
+function pathD(pts){ // pts in viewBox units, quadratic midpoint smoothing
+ if(!pts.length)return '';
+ if(pts.length===1){const [x,y]=pts[0];return `M${r1(x)} ${r1(y)}l.1 0`}
+ let d=`M${r1(pts[0][0])} ${r1(pts[0][1])}`;
+ for(let i=1;i<pts.length-1;i++){const [x,y]=pts[i],[nx,ny]=pts[i+1];d+=`Q${r1(x)} ${r1(y)} ${r1((x+nx)/2)} ${r1((y+ny)/2)}`}
+ const l=pts[pts.length-1];return d+`L${r1(l[0])} ${r1(l[1])}`;
+}
+const toVB=pts=>pts.map(p=>[p[0]*VW,p[1]*VH]);
+function itemSVG(h,sel){
+ const id=`data-id="${h.id}"`;
+ if(h.t==='s'){
+  const w=r1(h.sz*VW), d=pathD(toVB(h.pts)), pen=h.m==='pen';
+  const glow=sel?`<path d="${d}" fill="none" stroke="#ea580c" stroke-opacity=".55" stroke-width="${r1(w+10)}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 8"/>`:'';
+  return glow+`<path ${id} class="${pen?'pen':'hlp'}" d="${d}" fill="none" stroke="${h.c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ }
+ // legacy rectangle highlight (v1/v2)
+ return `<rect ${id} class="hlp${sel?' sel':''}" x="${r1(h.x*VW)}" y="${r1(h.y*VH)}" width="${r1(h.w*VW)}" height="${r1(h.h*VH)}" rx="3" fill="${h.c}"/>`;
+}
 function drawUserHL(p){const el=pageEls[p-1];if(!el)return;const L=el.querySelector('.hl-user');if(!L)return;
- L.innerHTML=(S.hl[p]||[]).map(r=>`<div data-id="${r.id}" class="${hlSel&&hlSel.p===p&&hlSel.id===r.id?'sel':''}" style="left:${r.x*100}%;top:${r.y*100}%;width:${r.w*100}%;height:${r.h*100}%;background:${r.c};opacity:.55"></div>`).join('')}
+ const arr=S.hl[p]||[];
+ L.innerHTML=`<svg viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="none">${arr.map(h=>itemSVG(h,hlSel&&hlSel.p===p&&hlSel.id===h.id)).join('')}</svg>`}
 function hlChanged(p){save();drawUserHL(p);renderHL();updateHlBar()}
-function deleteHL(p,id){const arr=S.hl[p];if(!arr)return;const k=arr.findIndex(h=>h.id===id);if(k<0)return;arr.splice(k,1);if(!arr.length)delete S.hl[p];if(hlSel&&hlSel.id===id)selectHL(null);hlChanged(p)}
+function pushUndo(a){undoStack.push(a);if(undoStack.length>100)undoStack.shift();updateHlBar()}
+function removeItems(p,ids){const arr=S.hl[p]||[];const out=[];for(let k=arr.length-1;k>=0;k--){if(ids.includes(arr[k].id))out.unshift({k,h:arr.splice(k,1)[0]})}if(!arr.length)delete S.hl[p];return out}
+function deleteHL(p,id){const rm=removeItems(p,[id]);if(!rm.length)return;pushUndo({t:'del',p,items:rm});if(hlSel&&hlSel.id===id)selectHL(null);hlChanged(p)}
+function undo(){
+ const a=undoStack.pop();if(!a){toast('ไม่มีอะไรให้ย้อนกลับ');return}
+ if(a.t==='add'){removeItems(a.p,[a.id]);hlChanged(a.p)}
+ else{ (a.pages||[{p:a.p,items:a.items}]).forEach(g=>{const arr=S.hl[g.p]||(S.hl[g.p]=[]);const its=a.t==='erase'?g.items.slice().reverse():g.items;its.forEach(({k,h})=>arr.splice(Math.min(k,arr.length),0,h));hlChanged(g.p)}) }
+ selectHL(null);toast('ย้อนกลับแล้ว ↶');updateHlBar();
+}
 async function clearPageHL(pages,ask=true){
  pages=pages.filter(p=>hlCount(p));const n=pages.reduce((a,p)=>a+hlCount(p),0);
  if(!n){toast('หน้านี้ไม่มีไฮไลต์');return}
- if(ask&&!await askConfirm('ล้างไฮไลต์?',`ลบไฮไลต์ทั้งหมด ${n} รายการในหน้า ${pages.join(', ')} ใช่หรือไม่`,'ล้างทั้งหมด'))return;
- selectHL(null);pages.forEach(p=>{delete S.hl[p];hlChanged(p)});toast('ล้างไฮไลต์แล้ว')
+ if(ask&&!await askConfirm('ล้างไฮไลต์?',`ลบไฮไลต์ทั้งหมด ${n} รายการในหน้า ${pages.join(', ')} ใช่หรือไม่ (กด “ย้อนกลับ” เพื่อเอาคืนได้)`,'ล้างทั้งหมด'))return;
+ selectHL(null);const groups=pages.map(p=>({p,items:(S.hl[p]||[]).map((h,k)=>({k,h}))}));
+ pages.forEach(p=>{delete S.hl[p];hlChanged(p)});pushUndo({t:'clear',pages:groups});toast('ล้างไฮไลต์แล้ว')
 }
-function selectHL(sel){
- const prev=hlSel;hlSel=sel;if(prev)drawUserHL(prev.p);if(sel)drawUserHL(sel.p);placeHlDel();
-}
+function selectHL(sel){const prev=hlSel;hlSel=sel;if(prev)drawUserHL(prev.p);if(sel)drawUserHL(sel.p);placeHlDel()}
 function placeHlDel(){
  const b=$('#hlDel');if(!hlSel){b.classList.remove('show');return}
- const d=pageEls[hlSel.p-1]&&pageEls[hlSel.p-1].querySelector(`.hl-user div[data-id="${hlSel.id}"]`);
+ const d=pageEls[hlSel.p-1]&&pageEls[hlSel.p-1].querySelector(`.hl-user [data-id="${hlSel.id}"]`);
  if(!d){b.classList.remove('show');return}
  const r=d.getBoundingClientRect();b.classList.add('show');
  const bw=b.offsetWidth||110, bh=b.offsetHeight||36;
@@ -774,63 +829,102 @@ function placeHlDel(){
  b.style.left=x+'px';b.style.top=y+'px';
 }
 $('#hlDel').addEventListener('click',e=>{e.stopPropagation();if(hlSel){deleteHL(hlSel.p,hlSel.id);toast('ลบไฮไลต์แล้ว')}});
-function setHlMode(m){hlMode=m;document.body.classList.toggle('erase',m==='erase');$$('#hlModeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));if(m==='erase')selectHL(null)}
-$$('#hlModeSeg button').forEach(b=>b.onclick=()=>{setHlMode(b.dataset.m);toast(b.dataset.m==='erase'?'ยางลบ: แตะหรือลากผ่านไฮไลต์เพื่อลบ':'ปากกา: ลากเพื่อไฮไลต์ • แตะไฮไลต์เพื่อเลือกแล้วลบ')});
+/* toolbar */
+function curColor(){return TOOL.mode==='pen'?TOOL.penc:TOOL.hlc}
+function renderToolbar(){
+ $$('#hlModeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===TOOL.mode));
+ document.body.classList.toggle('erase',TOOL.mode==='erase');
+ const cols=COLORS[TOOL.mode==='pen'?'pen':'hl'];
+ $('#hlColors').innerHTML=cols.map(c=>`<button class="sw${c===curColor()?' on':''}" data-c="${c}" style="background:${c}" aria-label="สี"></button>`).join('');
+ $$('#hlColors .sw').forEach(b=>b.onclick=()=>{if(TOOL.mode==='pen')TOOL.penc=b.dataset.c;else{TOOL.hlc=b.dataset.c;if(TOOL.mode==='erase')TOOL.mode='hl'}saveTool();renderToolbar()});
+ const c=TOOL.mode==='erase'?'#9ca3af':curColor(), op=TOOL.mode==='hl'?.6:1;
+ $('#hlNibs').innerHTML=NIBS.map((n,i)=>{const px=Math.round(4+i*4.5);return `<button class="nib${i===TOOL.nib?' on':''}" data-i="${i}" title="ขนาดหัวปากกา ${i+1}" aria-label="ขนาด ${i+1}"><i style="width:${px}px;height:${px}px;background:${c};opacity:${op}"></i></button>`}).join('');
+ $$('#hlNibs .nib').forEach(b=>b.onclick=()=>{TOOL.nib=+b.dataset.i;if(TOOL.mode==='erase')TOOL.mode='hl';saveTool();renderToolbar()});
+ $('#hlColors').style.display=$('#hlNibs').style.display=TOOL.mode==='erase'?'none':'';
+ updateHlBar();
+}
+function setHlMode(m){TOOL.mode=m;saveTool();if(m==='erase')selectHL(null);renderToolbar()}
+$$('#hlModeSeg button').forEach(b=>b.onclick=()=>{setHlMode(b.dataset.m);toast({hl:'ปากกาไฮไลต์: ลากเพื่อระบายแบบอิสระ',pen:'ปากกาเขียน: เขียน/ขีดเส้นใต้ด้วยหมึกทึบ',erase:'ยางลบ: แตะหรือลากผ่านเส้นเพื่อลบทั้งเส้น'}[b.dataset.m])});
 function visPages(){return visibleIdx().filter(i=>i<NP).map(i=>i+1)}
-function updateHlBar(){const n=visPages().reduce((a,p)=>a+hlCount(p),0);const b=$('#hlClearPage');b.disabled=!n;b.querySelector('span').textContent=n?`ล้างหน้านี้ (${n})`:'ล้างหน้านี้'}
+function updateHlBar(){const n=visPages().reduce((a,p)=>a+hlCount(p),0);const b=$('#hlClearPage');b.disabled=!n;b.querySelector('span').textContent=n?`ล้างหน้านี้ (${n})`:'ล้างหน้านี้';$('#hlUndo').disabled=!undoStack.length}
 $('#hlClearPage').onclick=()=>clearPageHL(visPages());
+$('#hlUndo').onclick=undo;
 $('#hlListBtn').onclick=()=>{setPen(false);openDrawer('hl')};
 function placeOverlay(){const r=$('#stage').getBoundingClientRect();Object.assign(ov.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'})}
 function setPen(on){document.body.classList.toggle('hl-mode',on);$('#bPen').classList.toggle('on',on);
- if(on){closeDrawer();placeOverlay();updateHlBar();toast(hlMode==='erase'?'ยางลบ: แตะหรือลากผ่านไฮไลต์เพื่อลบ':'ลากเพื่อไฮไลต์ • แตะไฮไลต์เพื่อเลือก/ลบ • สองนิ้วเพื่อเลื่อน/ซูม')}
- else{selectHL(null);hlStart=null;tmp.style.display='none'}}
-$$('.sw').forEach(b=>b.onclick=()=>{$$('.sw').forEach(x=>x.classList.remove('on'));b.classList.add('on');hlColor=b.dataset.c;if(hlMode==='erase')setHlMode('pen')});
+ if(on){closeDrawer();placeOverlay();renderToolbar();toast(TOOL.mode==='erase'?'ยางลบ: แตะหรือลากผ่านเส้นเพื่อลบทั้งเส้น':'ลากนิ้ว/ปากกาเพื่อไฮไลต์ • สองนิ้วเพื่อเลื่อน/ซูม')}
+ else{selectHL(null);cancelHlDraw()}}
 $('#hlDone').onclick=()=>setPen(false);
 function pageAt(x,y){for(const i of visibleIdx()){if(i>=NP)continue;const r=pageEls[i].querySelector('.page-inner').getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return {i,r}}return null}
-function hitHL(p,px,py,pad){pad=pad||0;const arr=S.hl[p]||[];for(let k=arr.length-1;k>=0;k--){const a=arr[k];if(px>=a.x-pad&&px<=a.x+a.w+pad&&py>=a.y-pad&&py<=a.y+a.h+pad)return a}return null}
-function eraseAt(x,y){const h=pageAt(x,y);if(!h)return;const p=h.i+1;const px=(x-h.r.left)/h.r.width,py=(y-h.r.top)/h.r.height;const a=hitHL(p,px,py,.006);if(a){deleteHL(p,a.id);eraseCount++}}
-let eraseCount=0;
+/* hit testing in page pixels */
+function segDist(px,py,ax,ay,bx,by){const dx=bx-ax,dy=by-ay,l=dx*dx+dy*dy;let t=l?((px-ax)*dx+(py-ay)*dy)/l:0;t=Math.max(0,Math.min(1,t));return Math.hypot(px-ax-t*dx,py-ay-t*dy)}
+function hitItem(h,px,py,rw,rh,tol){ // px,py in page px
+ if(h.t==='s'){const r=h.sz*rw/2+tol;const P=h.pts;if(P.length===1)return Math.hypot(P[0][0]*rw-px,P[0][1]*rh-py)<=r;
+  for(let i=1;i<P.length;i++)if(segDist(px,py,P[i-1][0]*rw,P[i-1][1]*rh,P[i][0]*rw,P[i][1]*rh)<=r)return true;return false}
+ return px>=h.x*rw-tol&&px<=(h.x+h.w)*rw+tol&&py>=h.y*rh-tol&&py<=(h.y+h.h)*rh+tol;
+}
+function hitAt(p,x,y,r,tol){const arr=S.hl[p]||[];const px=x-r.left,py=y-r.top;for(let k=arr.length-1;k>=0;k--)if(hitItem(arr[k],px,py,r.width,r.height,tol))return arr[k];return null}
+/* Ramer–Douglas–Peucker simplification (page px) */
+function simplify(pts,eps){if(pts.length<3)return pts;let dmax=0,idx=0;const a=pts[0],b=pts[pts.length-1];
+ for(let i=1;i<pts.length-1;i++){const d=segDist(pts[i][0],pts[i][1],a[0],a[1],b[0],b[1]);if(d>dmax){dmax=d;idx=i}}
+ if(dmax>eps){const l=simplify(pts.slice(0,idx+1),eps),rr=simplify(pts.slice(idx),eps);return l.slice(0,-1).concat(rr)}return [a,b]}
 const ov=$('#hlOverlay'), tmp=$('#hlTemp');
-function cancelHlDraw(){hlStart=null;tmp.style.display='none'}
+let livePath=null, liveRAF=0, erased=null;
+function cancelHlDraw(){if(livePath){livePath.remove();livePath=null}hlStart=null;erased=null;tmp.style.display='none'}
+function evPts(e){try{const c=e.getCoalescedEvents&&e.getCoalescedEvents();if(c&&c.length)return c}catch(_){}return [e]}
+function eraseAt(x,y){const h=pageAt(x,y);if(!h)return;const p=h.i+1;const a=hitAt(p,x,y,h.r,12);if(a){const rm=removeItems(p,[a.id]);if(rm.length){(erased[p]||(erased[p]=[])).push(...rm);drawUserHL(p)}}}
 ov.addEventListener('pointerdown',e=>{
  if(!e.isPrimary||pinching())return;
- if(hlMode==='erase'){eraseCount=0;hlStart={erase:true};try{ov.setPointerCapture(e.pointerId)}catch(_){}eraseAt(e.clientX,e.clientY);return}
+ if(e.pointerType==='pen')penSeen=true;else if(penSeen&&e.pointerType==='touch')return; // palm rejection once Apple Pencil is used
+ try{ov.setPointerCapture(e.pointerId)}catch(_){}
+ if(TOOL.mode==='erase'){erased={};hlStart={erase:true};eraseAt(e.clientX,e.clientY);return}
  const h=pageAt(e.clientX,e.clientY);if(!h){selectHL(null);return}
- hlStart={x:e.clientX,y:e.clientY,r:h.r};hlPage=h.i+1;try{ov.setPointerCapture(e.pointerId)}catch(_){}
- tmp.style.cssText=`display:block;left:${e.clientX}px;top:${e.clientY}px;width:0;height:0;background:${hlColor};opacity:.5`});
+ hlPage=h.i+1;hlStart={r:h.r,pts:[[e.clientX-h.r.left,e.clientY-h.r.top]],t0:Date.now(),x0:e.clientX,y0:e.clientY,moved:false};
+ const svg=pageEls[h.i].querySelector('.hl-user svg');
+ if(svg){livePath=document.createElementNS('http://www.w3.org/2000/svg','path');
+  const pen=TOOL.mode==='pen';livePath.setAttribute('class',pen?'pen':'hlp');livePath.setAttribute('fill','none');livePath.setAttribute('stroke',curColor());
+  livePath.setAttribute('stroke-width',r1(NIBS[TOOL.nib]*VW));livePath.setAttribute('stroke-linecap','round');livePath.setAttribute('stroke-linejoin','round');svg.appendChild(livePath);liveUpdate()}
+});
+function liveUpdate(){if(!livePath||!hlStart)return;const r=hlStart.r;livePath.setAttribute('d',pathD(hlStart.pts.map(p=>[p[0]/r.width*VW,p[1]/r.height*VH])))}
 ov.addEventListener('pointermove',e=>{if(!hlStart||!e.isPrimary)return;
- if(hlStart.erase){eraseAt(e.clientX,e.clientY);return}
- const r=hlStart.r;const x=Math.max(r.left,Math.min(r.right,e.clientX)),y=Math.max(r.top,Math.min(r.bottom,e.clientY));
- tmp.style.left=Math.min(x,hlStart.x)+'px';tmp.style.top=Math.min(y,hlStart.y)+'px';tmp.style.width=Math.abs(x-hlStart.x)+'px';tmp.style.height=Math.abs(y-hlStart.y)+'px'});
+ if(hlStart.erase){for(const c of evPts(e))eraseAt(c.clientX,c.clientY);return}
+ const r=hlStart.r;
+ for(const c of evPts(e)){const x=Math.max(0,Math.min(r.width,c.clientX-r.left)),y=Math.max(0,Math.min(r.height,c.clientY-r.top));const l=hlStart.pts[hlStart.pts.length-1];
+  if(Math.hypot(x-l[0],y-l[1])>=1.5)hlStart.pts.push([x,y])}
+ if(Math.hypot(e.clientX-hlStart.x0,e.clientY-hlStart.y0)>4)hlStart.moved=true;
+ if(!liveRAF)liveRAF=requestAnimationFrame(()=>{liveRAF=0;liveUpdate()});
+});
 function hlUp(e){if(!hlStart||!e.isPrimary)return;
- if(hlStart.erase){hlStart=null;if(eraseCount)toast(`ลบไฮไลต์ ${eraseCount} รายการ`);return}
- tmp.style.display='none';const r=hlStart.r;
- const x=Math.max(r.left,Math.min(r.right,e.clientX)),y=Math.max(r.top,Math.min(r.bottom,e.clientY));
- const nx=(Math.min(x,hlStart.x)-r.left)/r.width, ny=(Math.min(y,hlStart.y)-r.top)/r.height, nw=Math.abs(x-hlStart.x)/r.width, nh=Math.abs(y-hlStart.y)/r.height;
- hlStart=null;
- if(nw<.012&&nh<.012){const a=hitHL(hlPage,(x-r.left)/r.width,(y-r.top)/r.height,.006);selectHL(a?{p:hlPage,id:a.id}:null);return}
- const arr=S.hl[hlPage]||(S.hl[hlPage]=[]);const id=newId();
- arr.push({id,x:+nx.toFixed(4),y:+ny.toFixed(4),w:+Math.max(nw,.01).toFixed(4),h:+Math.max(nh,.014).toFixed(4),c:hlColor});
- hlSel=null;hlChanged(hlPage);placeHlDel();
+ if(hlStart.erase){const groups=Object.keys(erased).map(p=>({p:+p,items:erased[p]}));const n=groups.reduce((a,g)=>a+g.items.length,0);
+  hlStart=null;erased=null;if(n){pushUndo({t:'erase',pages:groups});groups.forEach(g=>hlChanged(g.p));toast(`ลบ ${n} เส้น`)}return}
+ const st=hlStart;hlStart=null;if(livePath){livePath.remove();livePath=null}
+ // a quick tap on an existing stroke selects it (shows the delete bubble)
+ if(!st.moved&&Date.now()-st.t0<350){const a=hitAt(hlPage,st.x0,st.y0,st.r,6);if(a){selectHL({p:hlPage,id:a.id});return}}
+ selectHL(null);
+ const r=st.r;const simp=simplify(st.pts,.7).map(p=>[+(p[0]/r.width).toFixed(4),+(p[1]/r.height).toFixed(4)]);
+ const item={id:newId(),t:'s',m:TOOL.mode==='pen'?'pen':'hl',c:curColor(),sz:NIBS[TOOL.nib],pts:simp};
+ (S.hl[hlPage]||(S.hl[hlPage]=[])).push(item);pushUndo({t:'add',p:hlPage,id:item.id});hlChanged(hlPage);
 }
-ov.addEventListener('pointerup',hlUp);ov.addEventListener('pointercancel',e=>{cancelHlDraw()});
-/* text under a highlight (for the list) */
+ov.addEventListener('pointerup',hlUp);ov.addEventListener('pointercancel',()=>cancelHlDraw());
+/* list helpers */
+function bbox(h){if(h.t!=='s')return {x:h.x,y:h.y,w:h.w,h:h.h};let x0=1,y0=1,x1=0,y1=0;h.pts.forEach(([x,y])=>{x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y)});const pad=h.sz/2;return {x:x0-pad,y:y0-pad*RATIO,w:x1-x0+2*pad,h:y1-y0+2*pad*RATIO}}
+function miniSVG(h){const b=bbox(h);const pad=.01;const vx=(b.x-pad)*VW,vy=(b.y-pad)*VH,vw=Math.max((b.w+2*pad)*VW,20),vh=Math.max((b.h+2*pad)*VH,20);
+ return `<svg class="hlmini" viewBox="${r1(vx)} ${r1(vy)} ${r1(vw)} ${r1(vh)}" preserveAspectRatio="xMidYMid meet">${itemSVG(h,false)}</svg>`}
 const snipCache=new Map();
 async function hlSnippet(p,h){
  const key=p+':'+h.id;if(snipCache.has(key))return snipCache.get(key);
- let out='';
+ const bb=Object.assign({},bbox(h));if(bb.h<.03){bb.y-=(.03-bb.h)/2;bb.h=.03}let out='';
  try{const {tc,vp}=await getText(p);let lx=null,ly=null;
   for(const it of tc.items){const s=it.str||'';if(!s.trim())continue;const tx=pdfjsLib.Util.transform(vp.transform,it.transform);const fh=Math.hypot(tx[2],tx[3]);
    const x0=tx[4]/vp.width,x1=(tx[4]+it.width)/vp.width,yc=(tx[5]-fh*.4)/vp.height;
-   if(yc<h.y||yc>h.y+h.h||x1<h.x||x0>h.x+h.w)continue;
+   if(yc<bb.y||yc>bb.y+bb.h||x1<bb.x||x0>bb.x+bb.w)continue;
    const span=Math.max(1e-6,x1-x0);
-   const a=Math.max(0,Math.floor((h.x-x0)/span*s.length)-1),b=Math.min(s.length,Math.ceil((h.x+h.w-x0)/span*s.length)+1);
+   const a=Math.max(0,Math.floor((bb.x-x0)/span*s.length)-1),b=Math.min(s.length,Math.ceil((bb.x+bb.w-x0)/span*s.length)+1);
    const gap=lx===null?0:(tx[4]-lx);const newLine=ly!==null&&Math.abs(tx[5]-ly)>fh*.5;
    if(lx!==null&&(newLine||gap>fh*.3))out+=' ';
    out+=s.slice(a,b);lx=tx[4]+it.width;ly=tx[5]}
  }catch(e){}
- out=out.replace(/[\u0000-\u001f\ufffd]/g,'');
- out=out.replace(/\s+/g,' ').trim();if(out.length>90)out=out.slice(0,90)+'…';
+ out=out.replace(/[\u0000-\u001f\ufffd]/g,'').replace(/\s+/g,' ').trim();if(out.length>80)out=out.slice(0,80)+'…';
  snipCache.set(key,out);return out;
 }
 function renderHL(){
@@ -838,7 +932,7 @@ function renderHL(){
  const pages=Object.keys(S.hl).map(Number).filter(p=>hlCount(p)).sort((a,b)=>a-b);
  $('#hlTotal').textContent=pages.length?`ไฮไลต์ทั้งหมด ${hlTotal()} รายการ ใน ${pages.length} หน้า`:'';
  $('#hlClearAll').style.display=pages.length?'':'none';
- if(!pages.length){l.innerHTML='<div class="empty"><svg class="i"><use href="#i-pen"/></svg>ยังไม่มีไฮไลต์<br>กด <kbd>H</kbd> หรือปุ่มปากกาด้านบน แล้วลากบนหน้าเพื่อไฮไลต์</div>';return}
+ if(!pages.length){l.innerHTML='<div class="empty"><svg class="i"><use href="#i-pen"/></svg>ยังไม่มีไฮไลต์<br>กด <kbd>H</kbd> หรือปุ่มปากกาด้านบน แล้วลากนิ้ว/ปากกาบนหน้าเพื่อไฮไลต์</div>';return}
  l.innerHTML='';
  pages.forEach(p=>{
   const g=document.createElement('div');g.className='hl-group';
@@ -846,16 +940,17 @@ function renderHL(){
   g.querySelector('.hl-gh button').onclick=()=>clearPageHL([p]);
   (S.hl[p]||[]).forEach((h,k)=>{
    const it=document.createElement('div');it.className='hl-it';it.dataset.id=h.id;
-   it.innerHTML=`<i class="swc" style="background:${h.c}"></i><div class="tx">ไฮไลต์ที่ ${k+1}</div><button class="btn x" title="ลบไฮไลต์นี้" aria-label="ลบไฮไลต์นี้"><svg class="i"><use href="#i-trash"/></svg></button>`;
+   const kind=h.t==='s'?(h.m==='pen'?'ปากกาเขียน':'ไฮไลต์'):'ไฮไลต์ (กล่อง)';
+   it.innerHTML=`${miniSVG(h)}<div class="tx"><b>${kind} ${k+1}</b><span class="sn"></span></div><button class="btn x" title="ลบรายการนี้" aria-label="ลบรายการนี้"><svg class="i"><use href="#i-trash"/></svg></button>`;
    it.onclick=()=>{go(p-1);if(innerWidth<900)closeDrawer();setTimeout(()=>{hlSel={p,id:h.id};drawUserHL(p);setTimeout(()=>{if(!document.body.classList.contains('hl-mode')){hlSel=null;drawUserHL(p)}},1600)},450)};
-   it.querySelector('.x').onclick=e=>{e.stopPropagation();deleteHL(p,h.id);toast('ลบไฮไลต์แล้ว')};
-   hlSnippet(p,h).then(s=>{if(s)it.querySelector('.tx').textContent='“'+s+'”'});
+   it.querySelector('.x').onclick=e=>{e.stopPropagation();deleteHL(p,h.id);toast('ลบแล้ว (กดย้อนกลับเพื่อเอาคืน)')};
+   hlSnippet(p,h).then(s=>{if(s)it.querySelector('.sn').textContent='“'+s+'”'});
    g.appendChild(it);
   });
   l.appendChild(g);
  });
 }
-$('#hlClearAll').onclick=async()=>{const n=hlTotal();if(!n)return;if(await askConfirm('ลบไฮไลต์ทั้งหมด?',`ลบไฮไลต์ทั้งหมด ${n} รายการในทุกหน้า ใช่หรือไม่ (ย้อนกลับไม่ได้)`,'ลบทั้งหมด')){const ps=Object.keys(S.hl).map(Number);S.hl={};selectHL(null);save();ps.forEach(drawUserHL);renderHL();updateHlBar();toast('ลบไฮไลต์ทั้งหมดแล้ว')}};
+$('#hlClearAll').onclick=async()=>{const n=hlTotal();if(!n)return;if(await askConfirm('ลบไฮไลต์ทั้งหมด?',`ลบไฮไลต์ทั้งหมด ${n} รายการในทุกหน้า ใช่หรือไม่`,'ลบทั้งหมด')){const ps=Object.keys(S.hl).map(Number);pushUndo({t:'clear',pages:ps.map(p=>({p,items:S.hl[p].map((h,k)=>({k,h}))}))});S.hl={};selectHL(null);save();ps.forEach(drawUserHL);renderHL();updateHlBar();toast('ลบไฮไลต์ทั้งหมดแล้ว')}};
 $('#hlPenBtn').onclick=()=>setPen(true);
 
 /* ---------- zoom: 10% steps, pinch with live transform, pan when zoomed ---------- */
@@ -995,6 +1090,7 @@ document.addEventListener('keydown',e=>{
  const tag=(e.target.tagName||'').toLowerCase();
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){e.preventDefault();openDrawer('search');return}
  if(e.key==='Escape'){if($('#confirmModal.show')){cfDone(false);return}if($('.modal.show')){closeModals();return}if(hlSel){selectHL(null);return}if(document.body.classList.contains('hl-mode')){setPen(false);return}closeDrawer();$('#moreMenu').classList.remove('show');return}
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&tag!=='input'&&tag!=='textarea'&&undoStack.length){e.preventDefault();undo();return}
  if(tag==='input'||tag==='textarea'||e.ctrlKey||e.metaKey||e.altKey)return;
  if($('.modal.show'))return;
  const k=e.key.length===1?e.key.toLowerCase():e.key;
