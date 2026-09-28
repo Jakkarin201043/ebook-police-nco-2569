@@ -106,10 +106,36 @@ body.theme-night .hl-layer div{mix-blend-mode:screen;opacity:.45!important}
 .note-pin svg.i{width:16px;height:16px}
 .flash .clip{animation:flash 1s}
 @keyframes flash{30%{filter:brightness(1.1) saturate(1.2)}}
-#hlOverlay{position:absolute;inset:0;z-index:15;cursor:crosshair;display:none;touch-action:none}
+#hlOverlay{position:fixed;left:0;top:0;width:100%;height:100%;z-index:15;cursor:crosshair;display:none;touch-action:none}
+body.erase #hlOverlay{cursor:cell}
+.hl-user div.sel{outline:2.5px solid #ea580c;outline-offset:2px;box-shadow:0 0 0 5px rgba(234,88,12,.22);opacity:.8!important}
+#hlDel{position:fixed;z-index:42;display:none;align-items:center;gap:6px;height:38px;padding:0 14px;border:0;border-radius:999px;background:#dc2626;color:#fff;font:inherit;font-size:14px;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.35);cursor:pointer;animation:fade .15s}
+#hlDel.show{display:inline-flex}
+#hlDel svg.i{width:17px;height:17px}
+#hlDel::after{content:"";position:absolute;bottom:-6px;right:22px;border:6px solid transparent;border-top-color:#dc2626;border-bottom:0}
+#hlDel.below::after{bottom:auto;top:-6px;border-top:0;border-bottom:6px solid #dc2626}
+.smallbtn{height:32px;padding:0 10px;border-radius:9px;border:0;background:var(--ui-line);color:inherit;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.smallbtn svg.i{width:16px;height:16px}
+.smallbtn:disabled{opacity:.45;cursor:default}
+.danger{color:#dc2626!important}
+.pbtn.danger{color:#dc2626}
+.hlseg button{display:inline-flex;align-items:center;gap:4px;padding:5px 10px}
+.hlseg svg.i{width:16px;height:16px}
+.hlcolors{display:inline-flex;gap:6px;align-items:center}
+.hl-group{margin-bottom:14px}
+.hl-gh{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;font-weight:600;padding:6px 4px 8px;border-bottom:1px solid var(--ui-line);margin-bottom:4px}
+.hl-it{display:flex;align-items:center;gap:10px;padding:8px 6px;border-radius:10px;cursor:pointer}
+.hl-it:hover{background:var(--ui-line)}
+.hl-it .swc{width:12px;align-self:stretch;min-height:30px;border-radius:4px;flex:none}
+.hl-it .tx{flex:1;min-width:0;font-size:13.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hl-it .x{opacity:.6}.hl-it .x:hover{opacity:1;color:#dc2626}
+body.zoomed .stf__parent{touch-action:pan-x pan-y}
+body.zoomed:not(.hl-mode) #stage{cursor:grab}
+#stage.panning{cursor:grabbing!important}
+#holder{transform-origin:0 0}
 body.hl-mode #hlOverlay{display:block}
 #hlTemp{position:fixed;z-index:40;pointer-events:none;border:1px dashed rgba(0,0,0,.4);display:none}
-#hlBar{position:absolute;top:70px;left:50%;transform:translateX(-50%);z-index:35;display:none;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--ui-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.3);font-size:13px;white-space:nowrap}
+#hlBar{position:absolute;top:calc(64px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:35;display:none;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--ui-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.3);font-size:13px;white-space:nowrap}
 body.hl-mode #hlBar{display:flex}
 .sw{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
 .sw.on{border-color:var(--ui-fg);transform:scale(1.15)}
@@ -207,7 +233,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   .btn{min-width:34px;padding:0 6px}
   #drawer{width:100vw;max-width:100vw}
   .bottombar{gap:6px;padding:6px 10px}
-  #hlBar span{display:none}
+  #hlBar{gap:5px;padding:6px 8px}#hlBar .hlseg span,#hlBar #hlClearPage span{display:none}
 }
 </style>
 </head>
@@ -238,6 +264,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></symbol>
   <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l10-10a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L13 19"/><path d="M22 21H7M5 11l9 9"/></symbol>
   <symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
  </defs>
 </svg>
@@ -271,7 +298,8 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
     <div class="seg" id="themeSeg"><button data-t="day">กลางวัน</button><button data-t="sepia">ซีเปีย</button><button data-t="night">กลางคืน</button></div></div>
    <button data-act="thumbs"><svg class="i"><use href="#i-grid"/></svg>ภาพย่อทุกหน้า</button>
    <button data-act="marks"><svg class="i"><use href="#i-bm"/></svg>รายการที่คั่นหน้า</button>
-   <button data-act="notes"><svg class="i"><use href="#i-note"/></svg>บันทึกและไฮไลต์</button>
+   <button data-act="notes"><svg class="i"><use href="#i-note"/></svg>บันทึก</button>
+   <button data-act="hl"><svg class="i"><use href="#i-pen"/></svg>รายการไฮไลต์ (ลบได้)</button>
    <button data-act="pen"><svg class="i"><use href="#i-pen"/></svg>ปากกาไฮไลต์</button>
    <button data-act="zin"><svg class="i"><use href="#i-zin"/></svg>ขยาย</button>
    <button data-act="zout"><svg class="i"><use href="#i-zout"/></svg>ย่อ</button>
@@ -283,11 +311,15 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
  </header>
  <main id="stage">
   <div id="holder"></div>
-  <div id="hlOverlay"></div>
  </main>
- <div id="hlBar"><b style="font-weight:600">ปากกาไฮไลต์</b><span style="color:var(--ui-sub)">ลากเพื่อระบาย • คลิกไฮไลต์เพื่อลบ</span>
-   <button class="sw on" data-c="#fde047" style="background:#fde047"></button><button class="sw" data-c="#86efac" style="background:#86efac"></button><button class="sw" data-c="#f9a8d4" style="background:#f9a8d4"></button><button class="sw" data-c="#93c5fd" style="background:#93c5fd"></button>
+ <div id="hlBar">
+   <div class="seg hlseg" id="hlModeSeg"><button data-m="pen" class="on" title="ปากกา: ลากเพื่อไฮไลต์ แตะไฮไลต์เพื่อเลือก"><svg class="i"><use href="#i-pen"/></svg><span>ปากกา</span></button><button data-m="erase" title="ยางลบ: แตะหรือลากผ่านไฮไลต์เพื่อลบ"><svg class="i"><use href="#i-eraser"/></svg><span>ยางลบ</span></button></div>
+   <span class="hlcolors"><button class="sw on" data-c="#fde047" style="background:#fde047"></button><button class="sw" data-c="#86efac" style="background:#86efac"></button><button class="sw" data-c="#f9a8d4" style="background:#f9a8d4"></button><button class="sw" data-c="#93c5fd" style="background:#93c5fd"></button></span>
+   <button class="smallbtn danger" id="hlClearPage" title="ลบไฮไลต์ทั้งหมดในหน้าที่เปิดอยู่"><svg class="i"><use href="#i-trash"/></svg><span>ล้างหน้านี้</span></button>
+   <button class="smallbtn" id="hlListBtn" title="รายการไฮไลต์ทั้งหมด"><svg class="i"><use href="#i-list"/></svg><span class="hide-sm">รายการ</span></button>
    <button class="btn" id="hlDone" style="height:30px;background:var(--accent);color:#fff">เสร็จ</button></div>
+ <div id="hlOverlay"></div>
+ <button id="hlDel" aria-label="ลบไฮไลต์นี้"><svg class="i"><use href="#i-trash"/></svg>ลบไฮไลต์</button>
  <button class="navarrow" id="prevArrow" aria-label="หน้าก่อนหน้า"><svg class="i"><use href="#i-left"/></svg></button>
  <button class="navarrow" id="nextArrow" aria-label="หน้าถัดไป"><svg class="i"><use href="#i-right"/></svg></button>
  <footer class="bottombar">
@@ -309,6 +341,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
    <button class="tab" data-pane="search"><svg class="i"><use href="#i-search"/></svg>ค้นหา</button>
    <button class="tab" data-pane="marks"><svg class="i"><use href="#i-bm"/></svg>ที่คั่น</button>
    <button class="tab" data-pane="notes"><svg class="i"><use href="#i-note"/></svg>บันทึก</button>
+   <button class="tab" data-pane="hl"><svg class="i"><use href="#i-pen"/></svg>ไฮไลต์</button>
   </div>
   <div class="dbody" id="dbody">
    <div class="pane toc" id="pane-toc"></div>
@@ -320,6 +353,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
    </div>
    <div class="pane" id="pane-marks"><div class="row"><button class="pbtn" id="addMarkBtn"><svg class="i"><use href="#i-bm"/></svg>คั่น/เอาที่คั่นหน้าปัจจุบัน</button></div><div id="markList"></div></div>
    <div class="pane" id="pane-notes"><div class="row"><button class="pbtn" id="addNoteBtn"><svg class="i"><use href="#i-note"/></svg>เพิ่มบันทึก</button><button class="pbtn ghost" id="penBtn2"><svg class="i"><use href="#i-pen"/></svg>ปากกาไฮไลต์</button></div><div id="noteList"></div></div>
+   <div class="pane" id="pane-hl"><div class="row"><button class="pbtn" id="hlPenBtn"><svg class="i"><use href="#i-pen"/></svg>ไฮไลต์เพิ่ม</button><button class="pbtn ghost danger" id="hlClearAll"><svg class="i"><use href="#i-trash"/></svg>ลบทั้งหมด</button></div><div class="smeta" id="hlTotal"></div><div id="hlListBox"></div></div>
   </div>
  </aside>
 </div>
@@ -334,8 +368,8 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   <span><kbd>Ctrl</kbd>+<kbd>F</kbd> <kbd>/</kbd></span><span>ค้นหาข้อความ</span>
   <span><kbd>B</kbd></span><span>คั่นหน้า / เอาที่คั่นออก</span>
   <span><kbd>N</kbd></span><span>เพิ่มบันทึกในหน้านี้</span>
-  <span><kbd>H</kbd></span><span>ปากกาไฮไลต์ (ลากบนหน้าเพื่อระบาย)</span>
-  <span><kbd>+</kbd><kbd>−</kbd><kbd>0</kbd></span><span>ขยาย / ย่อ / พอดีหน้าจอ (หรือ Ctrl+ล้อเมาส์)</span>
+  <span><kbd>H</kbd></span><span>ปากกาไฮไลต์ (ลากเพื่อระบาย • แตะไฮไลต์เพื่อเลือก แล้วกด “ลบไฮไลต์” หรือ <kbd>Delete</kbd> • มีโหมดยางลบและปุ่มล้างหน้านี้)</span>
+  <span><kbd>+</kbd><kbd>−</kbd><kbd>0</kbd></span><span>ขยาย / ย่อ ทีละ 10% (70–200%) / พอดีหน้าจอ • บน iPad ใช้สองนิ้วถ่างเพื่อซูมอย่างนุ่มนวล และลากเพื่อเลื่อนดูเมื่อขยายอยู่</span>
   <span><kbd>M</kbd></span><span>สลับโหมด กลางวัน → ซีเปีย → กลางคืน</span>
   <span><kbd>S</kbd></span><span>เปิด/ปิดเสียงพลิกหน้า</span>
   <span><kbd>F</kbd></span><span>เต็มจอ</span>
@@ -353,6 +387,7 @@ textarea.field{width:100%;height:160px;padding:10px 12px;resize:vertical;line-he
   <div style="display:flex;gap:8px"><button class="pbtn ghost" data-close>ยกเลิก</button><button class="pbtn" id="noteSave">บันทึก</button></div>
  </div>
 </div></div>
+<div class="modal" id="confirmModal"><div class="card" style="width:min(420px,100%)"><h3 id="cfTitle">ยืนยัน</h3><p id="cfText" style="margin:0 0 18px;color:var(--ui-sub);line-height:1.6;font-size:15px"></p><div style="display:flex;justify-content:flex-end;gap:8px"><button class="pbtn ghost" data-cancel>ยกเลิก</button><button class="pbtn" id="cfOk" style="background:#dc2626">ลบ</button></div></div></div>
 <div id="hlTemp"></div>
 <div id="toast"></div>
 <div id="installTip"><span>📲 ติดตั้งเป็นแอปเพื่ออ่านแบบ<b>ออฟไลน์</b>และเต็มจอ: แตะปุ่ม <b>แชร์</b> (สี่เหลี่ยมมีลูกศรขึ้น) แล้วเลือก <b>“เพิ่มไปยังหน้าจอโฮม”</b></span><button class="btn" id="installClose" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -407,11 +442,12 @@ const BOOK={"id": "a27aa88fb6", "title": "แนวข้อสอบนาย�
 <script>(()=>{
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const APP_VERSION='v2';
 const NP=BOOK.pages, TOTAL=NP+1, RATIO=BOOK.w/BOOK.h, KEY='ebook:'+BOOK.id, THEMES=['day','sepia','night'];
 let S={page:0,bookmarks:[],notes:{},hl:{},theme:'day',sound:true,zoom:1};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-let pdf=null, flip=null, pageEls=[], curIdx=S.page|0, single=false, pw=0, ph=0, lastSingle=null;
+let pdf=null, flip=null, pageEls=[], curIdx=S.page|0, single=false, pw=0, ph=0, lastSingle=null, lastZoomed=null;
 const cache=new Map(), thumbs=new Map(), textCache=new Map();
 const IS_IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const STANDALONE=window.navigator.standalone===true||!!(window.matchMedia&&matchMedia('(display-mode: standalone)').matches);
@@ -489,9 +525,10 @@ function makePage(i){
 }
 function buildBook(){
  const {w,h}=computeSize();
- if(flip&&w===pw&&h===ph&&single===lastSingle)return;
+ const zoomed=S.zoom>1.001;document.body.classList.toggle('zoomed',zoomed);
+ if(flip&&w===pw&&h===ph&&single===lastSingle&&zoomed===lastZoomed)return;
  if(flip){curIdx=flip.getCurrentPageIndex();try{flip.destroy()}catch(e){}}
- pw=w;ph=h;lastSingle=single;
+ pw=w;ph=h;lastSingle=single;lastZoomed=zoomed;const hd=document.getElementById('hlDel');if(hd)hd.classList.remove('show');
  const holder=$('#holder');holder.innerHTML='';
  const root=document.createElement('div');root.id='book';
  root.style.width=(single?w:w*2)+'px';root.style.height=h+'px';
@@ -499,7 +536,7 @@ function buildBook(){
  root.style.setProperty('--bc1',Math.max(11,w*.045)+'px');root.style.setProperty('--bc2',Math.max(9,w*.024)+'px');
  holder.appendChild(root);
  pageEls=[];for(let i=0;i<TOTAL;i++){const p=makePage(i);pageEls.push(p);root.appendChild(p)}
- flip=new St.PageFlip(root,{width:w,height:h,size:'fixed',autoSize:false,showCover:true,usePortrait:single,drawShadow:true,maxShadowOpacity:.55,flippingTime:750,mobileScrollSupport:false,swipeDistance:25,showPageCorners:true,startPage:Math.min(curIdx,TOTAL-1),clickEventForward:true,startZIndex:2});
+ flip=new St.PageFlip(root,{width:w,height:h,size:'fixed',autoSize:false,showCover:true,usePortrait:single,drawShadow:true,maxShadowOpacity:.55,flippingTime:750,mobileScrollSupport:false,swipeDistance:25,showPageCorners:true,startPage:Math.min(curIdx,TOTAL-1),clickEventForward:true,startZIndex:2,useMouseEvents:!zoomed});
  flip.loadFromHTML(pageEls);
  flip.on('flip',e=>{curIdx=e.data;onPageChange()});
  flip.on('changeState',e=>{if(e.data==='flipping')playFlip()});
@@ -530,6 +567,8 @@ function onPageChange(){
  vis.forEach(i=>{const t=$(`.th[data-p="${i+1}"]`);t&&t.classList.add('cur')});
  let best=null;$$('.toc a').forEach(a=>{if(+a.dataset.p<=pnum)best=a});best&&best.classList.add('cur');
  schedule();
+ if(hlSel){hlSel=null;$('#hlDel').classList.remove('show')}
+ if(document.body.classList.contains('hl-mode'))updateHlBar();
  if(searchQ)vis.forEach(i=>{if(i<NP)drawSearchHL(i+1)});
 }
 function go(i,animate=true){
@@ -684,38 +723,217 @@ $('#noteSave').onclick=()=>{const v=$('#noteText').value.trim();if(v)S.notes[not
 $('#noteDelete').onclick=()=>{delete S.notes[notePage];save();applyNotes();closeModals();toast('ลบบันทึกแล้ว')};
 function renderNotes(){
  const l=$('#noteList');
- const pages=[...new Set([...Object.keys(S.notes),...Object.keys(S.hl).filter(k=>S.hl[k]&&S.hl[k].length)].map(Number))].sort((a,b)=>a-b);
- if(!pages.length){l.innerHTML='<div class="empty"><svg class="i"><use href="#i-note"/></svg>ยังไม่มีบันทึกหรือไฮไลต์<br>กด <kbd>N</kbd> เพื่อจดบันทึก หรือ <kbd>H</kbd> เพื่อใช้ปากกาไฮไลต์</div>';return}
- l.innerHTML='';pages.forEach(p=>{const d=document.createElement('div');d.className='item';const hc=(S.hl[p]||[]).length;
-  d.innerHTML=`${miniHTML(p)}<div class="tx"><b>หน้า ${p}${hc?` <em style="font-style:normal;color:#ca8a04;font-weight:400">· ไฮไลต์ ${hc}</em>`:''}</b><span>${S.notes[p]?esc(S.notes[p]):'— ไม่มีข้อความบันทึก —'}</span></div><button class="btn x ed" title="แก้ไขบันทึก"><svg class="i"><use href="#i-note"/></svg></button>${hc?'<button class="btn x cl" title="ล้างไฮไลต์หน้านี้"><svg class="i"><use href="#i-trash"/></svg></button>':''}`;
+ const pages=Object.keys(S.notes).map(Number).sort((a,b)=>a-b);
+ if(!pages.length){l.innerHTML='<div class="empty"><svg class="i"><use href="#i-note"/></svg>ยังไม่มีบันทึก<br>กด <kbd>N</kbd> หรือปุ่มด้านบนเพื่อจดบันทึกในหน้าที่กำลังอ่าน</div>';return}
+ l.innerHTML='';pages.forEach(p=>{const d=document.createElement('div');d.className='item';
+  d.innerHTML=`${miniHTML(p)}<div class="tx"><b>หน้า ${p}</b><span>${esc(S.notes[p])}</span></div><button class="btn x ed" title="แก้ไขบันทึก"><svg class="i"><use href="#i-note"/></svg></button><button class="btn x dl" title="ลบบันทึก"><svg class="i"><use href="#i-trash"/></svg></button>`;
   d.onclick=()=>{go(p-1);if(innerWidth<700)closeDrawer()};
   d.querySelector('.ed').onclick=e=>{e.stopPropagation();openNote(p)};
-  const cl=d.querySelector('.cl');if(cl)cl.onclick=e=>{e.stopPropagation();delete S.hl[p];save();drawUserHL(p);renderNotes();toast('ล้างไฮไลต์แล้ว')};
+  d.querySelector('.dl').onclick=async e=>{e.stopPropagation();if(await askConfirm('ลบบันทึก?','ลบบันทึกของหน้า '+p+' ใช่หรือไม่')){delete S.notes[p];save();applyNotes();toast('ลบบันทึกแล้ว')}};
   l.appendChild(d)});
 }
-/* highlighter */
+/* ---------- confirm dialog ---------- */
+let cfResolve=null;
+function askConfirm(title,text,ok){
+ $('#cfTitle').textContent=title;$('#cfText').textContent=text||'';$('#cfOk').textContent=ok||'ลบ';
+ $('#confirmModal').classList.add('show');
+ return new Promise(res=>{cfResolve=res});
+}
+function cfDone(v){$('#confirmModal').classList.remove('show');if(cfResolve){const r=cfResolve;cfResolve=null;r(v)}}
+$('#cfOk').onclick=()=>cfDone(true);
+$('#confirmModal').addEventListener('click',e=>{if(e.target.id==='confirmModal'||e.target.closest('[data-cancel]'))cfDone(false)});
+
+/* ---------- highlights: draw / select / erase / list ---------- */
+let hlSeq=Date.now()%100000;
+const newId=()=>'h'+(hlSeq++).toString(36);
+Object.keys(S.hl).forEach(p=>{if(!Array.isArray(S.hl[p])||!S.hl[p].length){delete S.hl[p];return}S.hl[p].forEach(h=>{if(!h.id)h.id=newId()})});
+let hlColor='#fde047', hlMode='pen', hlStart=null, hlPage=0, hlSel=null;
+function hlCount(p){return (S.hl[p]||[]).length}
+function hlTotal(){return Object.keys(S.hl).reduce((a,p)=>a+hlCount(p),0)}
 function drawUserHL(p){const el=pageEls[p-1];if(!el)return;const L=el.querySelector('.hl-user');if(!L)return;
- L.innerHTML=(S.hl[p]||[]).map(r=>`<div style="left:${r.x*100}%;top:${r.y*100}%;width:${r.w*100}%;height:${r.h*100}%;background:${r.c};opacity:.55"></div>`).join('')}
-let hlColor='#fde047', hlStart=null, hlPage=0;
-function setPen(on){document.body.classList.toggle('hl-mode',on);$('#bPen').classList.toggle('on',on);if(on){closeDrawer();toast('ลากบนหน้าเพื่อไฮไลต์ • Esc เพื่อออก')}}
-$$('.sw').forEach(b=>b.onclick=()=>{$$('.sw').forEach(x=>x.classList.remove('on'));b.classList.add('on');hlColor=b.dataset.c});
+ L.innerHTML=(S.hl[p]||[]).map(r=>`<div data-id="${r.id}" class="${hlSel&&hlSel.p===p&&hlSel.id===r.id?'sel':''}" style="left:${r.x*100}%;top:${r.y*100}%;width:${r.w*100}%;height:${r.h*100}%;background:${r.c};opacity:.55"></div>`).join('')}
+function hlChanged(p){save();drawUserHL(p);renderHL();updateHlBar()}
+function deleteHL(p,id){const arr=S.hl[p];if(!arr)return;const k=arr.findIndex(h=>h.id===id);if(k<0)return;arr.splice(k,1);if(!arr.length)delete S.hl[p];if(hlSel&&hlSel.id===id)selectHL(null);hlChanged(p)}
+async function clearPageHL(pages,ask=true){
+ pages=pages.filter(p=>hlCount(p));const n=pages.reduce((a,p)=>a+hlCount(p),0);
+ if(!n){toast('หน้านี้ไม่มีไฮไลต์');return}
+ if(ask&&!await askConfirm('ล้างไฮไลต์?',`ลบไฮไลต์ทั้งหมด ${n} รายการในหน้า ${pages.join(', ')} ใช่หรือไม่`,'ล้างทั้งหมด'))return;
+ selectHL(null);pages.forEach(p=>{delete S.hl[p];hlChanged(p)});toast('ล้างไฮไลต์แล้ว')
+}
+function selectHL(sel){
+ const prev=hlSel;hlSel=sel;if(prev)drawUserHL(prev.p);if(sel)drawUserHL(sel.p);placeHlDel();
+}
+function placeHlDel(){
+ const b=$('#hlDel');if(!hlSel){b.classList.remove('show');return}
+ const d=pageEls[hlSel.p-1]&&pageEls[hlSel.p-1].querySelector(`.hl-user div[data-id="${hlSel.id}"]`);
+ if(!d){b.classList.remove('show');return}
+ const r=d.getBoundingClientRect();b.classList.add('show');
+ const bw=b.offsetWidth||110, bh=b.offsetHeight||36;
+ let x=Math.min(innerWidth-bw-8,Math.max(8,r.right-bw)), y=r.top-bh-10;
+ b.classList.toggle('below',y<60);if(y<60)y=r.bottom+10;
+ b.style.left=x+'px';b.style.top=y+'px';
+}
+$('#hlDel').addEventListener('click',e=>{e.stopPropagation();if(hlSel){deleteHL(hlSel.p,hlSel.id);toast('ลบไฮไลต์แล้ว')}});
+function setHlMode(m){hlMode=m;document.body.classList.toggle('erase',m==='erase');$$('#hlModeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));if(m==='erase')selectHL(null)}
+$$('#hlModeSeg button').forEach(b=>b.onclick=()=>{setHlMode(b.dataset.m);toast(b.dataset.m==='erase'?'ยางลบ: แตะหรือลากผ่านไฮไลต์เพื่อลบ':'ปากกา: ลากเพื่อไฮไลต์ • แตะไฮไลต์เพื่อเลือกแล้วลบ')});
+function visPages(){return visibleIdx().filter(i=>i<NP).map(i=>i+1)}
+function updateHlBar(){const n=visPages().reduce((a,p)=>a+hlCount(p),0);const b=$('#hlClearPage');b.disabled=!n;b.querySelector('span').textContent=n?`ล้างหน้านี้ (${n})`:'ล้างหน้านี้'}
+$('#hlClearPage').onclick=()=>clearPageHL(visPages());
+$('#hlListBtn').onclick=()=>{setPen(false);openDrawer('hl')};
+function placeOverlay(){const r=$('#stage').getBoundingClientRect();Object.assign(ov.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'})}
+function setPen(on){document.body.classList.toggle('hl-mode',on);$('#bPen').classList.toggle('on',on);
+ if(on){closeDrawer();placeOverlay();updateHlBar();toast(hlMode==='erase'?'ยางลบ: แตะหรือลากผ่านไฮไลต์เพื่อลบ':'ลากเพื่อไฮไลต์ • แตะไฮไลต์เพื่อเลือก/ลบ • สองนิ้วเพื่อเลื่อน/ซูม')}
+ else{selectHL(null);hlStart=null;tmp.style.display='none'}}
+$$('.sw').forEach(b=>b.onclick=()=>{$$('.sw').forEach(x=>x.classList.remove('on'));b.classList.add('on');hlColor=b.dataset.c;if(hlMode==='erase')setHlMode('pen')});
 $('#hlDone').onclick=()=>setPen(false);
 function pageAt(x,y){for(const i of visibleIdx()){if(i>=NP)continue;const r=pageEls[i].querySelector('.page-inner').getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return {i,r}}return null}
+function hitHL(p,px,py,pad){pad=pad||0;const arr=S.hl[p]||[];for(let k=arr.length-1;k>=0;k--){const a=arr[k];if(px>=a.x-pad&&px<=a.x+a.w+pad&&py>=a.y-pad&&py<=a.y+a.h+pad)return a}return null}
+function eraseAt(x,y){const h=pageAt(x,y);if(!h)return;const p=h.i+1;const px=(x-h.r.left)/h.r.width,py=(y-h.r.top)/h.r.height;const a=hitHL(p,px,py,.006);if(a){deleteHL(p,a.id);eraseCount++}}
+let eraseCount=0;
 const ov=$('#hlOverlay'), tmp=$('#hlTemp');
-ov.addEventListener('pointerdown',e=>{const h=pageAt(e.clientX,e.clientY);if(!h)return;hlStart={x:e.clientX,y:e.clientY,r:h.r};hlPage=h.i+1;try{ov.setPointerCapture(e.pointerId)}catch(_){}tmp.style.cssText=`display:block;left:${e.clientX}px;top:${e.clientY}px;width:0;height:0;background:${hlColor};opacity:.5`});
-ov.addEventListener('pointermove',e=>{if(!hlStart)return;const r=hlStart.r;const x=Math.max(r.left,Math.min(r.right,e.clientX)),y=Math.max(r.top,Math.min(r.bottom,e.clientY));
+function cancelHlDraw(){hlStart=null;tmp.style.display='none'}
+ov.addEventListener('pointerdown',e=>{
+ if(!e.isPrimary||pinching())return;
+ if(hlMode==='erase'){eraseCount=0;hlStart={erase:true};try{ov.setPointerCapture(e.pointerId)}catch(_){}eraseAt(e.clientX,e.clientY);return}
+ const h=pageAt(e.clientX,e.clientY);if(!h){selectHL(null);return}
+ hlStart={x:e.clientX,y:e.clientY,r:h.r};hlPage=h.i+1;try{ov.setPointerCapture(e.pointerId)}catch(_){}
+ tmp.style.cssText=`display:block;left:${e.clientX}px;top:${e.clientY}px;width:0;height:0;background:${hlColor};opacity:.5`});
+ov.addEventListener('pointermove',e=>{if(!hlStart||!e.isPrimary)return;
+ if(hlStart.erase){eraseAt(e.clientX,e.clientY);return}
+ const r=hlStart.r;const x=Math.max(r.left,Math.min(r.right,e.clientX)),y=Math.max(r.top,Math.min(r.bottom,e.clientY));
  tmp.style.left=Math.min(x,hlStart.x)+'px';tmp.style.top=Math.min(y,hlStart.y)+'px';tmp.style.width=Math.abs(x-hlStart.x)+'px';tmp.style.height=Math.abs(y-hlStart.y)+'px'});
-ov.addEventListener('pointerup',e=>{if(!hlStart)return;tmp.style.display='none';const r=hlStart.r;
+function hlUp(e){if(!hlStart||!e.isPrimary)return;
+ if(hlStart.erase){hlStart=null;if(eraseCount)toast(`ลบไฮไลต์ ${eraseCount} รายการ`);return}
+ tmp.style.display='none';const r=hlStart.r;
  const x=Math.max(r.left,Math.min(r.right,e.clientX)),y=Math.max(r.top,Math.min(r.bottom,e.clientY));
  const nx=(Math.min(x,hlStart.x)-r.left)/r.width, ny=(Math.min(y,hlStart.y)-r.top)/r.height, nw=Math.abs(x-hlStart.x)/r.width, nh=Math.abs(y-hlStart.y)/r.height;
- const arr=S.hl[hlPage]||(S.hl[hlPage]=[]);
- if(nw<.012&&nh<.012){const px=(x-r.left)/r.width,py=(y-r.top)/r.height;const k=arr.findIndex(a=>px>=a.x&&px<=a.x+a.w&&py>=a.y&&py<=a.y+a.h);if(k>=0){arr.splice(k,1);toast('ลบไฮไลต์แล้ว')}}
- else{arr.push({x:+nx.toFixed(4),y:+ny.toFixed(4),w:+Math.max(nw,.01).toFixed(4),h:+Math.max(nh,.014).toFixed(4),c:hlColor})}
- if(!arr.length)delete S.hl[hlPage];
- save();drawUserHL(hlPage);renderNotes();hlStart=null});
+ hlStart=null;
+ if(nw<.012&&nh<.012){const a=hitHL(hlPage,(x-r.left)/r.width,(y-r.top)/r.height,.006);selectHL(a?{p:hlPage,id:a.id}:null);return}
+ const arr=S.hl[hlPage]||(S.hl[hlPage]=[]);const id=newId();
+ arr.push({id,x:+nx.toFixed(4),y:+ny.toFixed(4),w:+Math.max(nw,.01).toFixed(4),h:+Math.max(nh,.014).toFixed(4),c:hlColor});
+ hlSel=null;hlChanged(hlPage);placeHlDel();
+}
+ov.addEventListener('pointerup',hlUp);ov.addEventListener('pointercancel',e=>{cancelHlDraw()});
+/* text under a highlight (for the list) */
+const snipCache=new Map();
+async function hlSnippet(p,h){
+ const key=p+':'+h.id;if(snipCache.has(key))return snipCache.get(key);
+ let out='';
+ try{const {tc,vp}=await getText(p);let lx=null,ly=null;
+  for(const it of tc.items){const s=it.str||'';if(!s.trim())continue;const tx=pdfjsLib.Util.transform(vp.transform,it.transform);const fh=Math.hypot(tx[2],tx[3]);
+   const x0=tx[4]/vp.width,x1=(tx[4]+it.width)/vp.width,yc=(tx[5]-fh*.4)/vp.height;
+   if(yc<h.y||yc>h.y+h.h||x1<h.x||x0>h.x+h.w)continue;
+   const span=Math.max(1e-6,x1-x0);
+   const a=Math.max(0,Math.floor((h.x-x0)/span*s.length)-1),b=Math.min(s.length,Math.ceil((h.x+h.w-x0)/span*s.length)+1);
+   const gap=lx===null?0:(tx[4]-lx);const newLine=ly!==null&&Math.abs(tx[5]-ly)>fh*.5;
+   if(lx!==null&&(newLine||gap>fh*.3))out+=' ';
+   out+=s.slice(a,b);lx=tx[4]+it.width;ly=tx[5]}
+ }catch(e){}
+ out=out.replace(/[\u0000-\u001f\ufffd]/g,'');
+ out=out.replace(/\s+/g,' ').trim();if(out.length>90)out=out.slice(0,90)+'…';
+ snipCache.set(key,out);return out;
+}
+function renderHL(){
+ const l=$('#hlListBox');if(!l)return;
+ const pages=Object.keys(S.hl).map(Number).filter(p=>hlCount(p)).sort((a,b)=>a-b);
+ $('#hlTotal').textContent=pages.length?`ไฮไลต์ทั้งหมด ${hlTotal()} รายการ ใน ${pages.length} หน้า`:'';
+ $('#hlClearAll').style.display=pages.length?'':'none';
+ if(!pages.length){l.innerHTML='<div class="empty"><svg class="i"><use href="#i-pen"/></svg>ยังไม่มีไฮไลต์<br>กด <kbd>H</kbd> หรือปุ่มปากกาด้านบน แล้วลากบนหน้าเพื่อไฮไลต์</div>';return}
+ l.innerHTML='';
+ pages.forEach(p=>{
+  const g=document.createElement('div');g.className='hl-group';
+  g.innerHTML=`<div class="hl-gh"><span>หน้า ${p} · ${hlCount(p)} รายการ</span><button class="smallbtn danger" title="ลบไฮไลต์ทั้งหมดในหน้านี้"><svg class="i"><use href="#i-trash"/></svg>ลบทั้งหน้า</button></div>`;
+  g.querySelector('.hl-gh button').onclick=()=>clearPageHL([p]);
+  (S.hl[p]||[]).forEach((h,k)=>{
+   const it=document.createElement('div');it.className='hl-it';it.dataset.id=h.id;
+   it.innerHTML=`<i class="swc" style="background:${h.c}"></i><div class="tx">ไฮไลต์ที่ ${k+1}</div><button class="btn x" title="ลบไฮไลต์นี้" aria-label="ลบไฮไลต์นี้"><svg class="i"><use href="#i-trash"/></svg></button>`;
+   it.onclick=()=>{go(p-1);if(innerWidth<900)closeDrawer();setTimeout(()=>{hlSel={p,id:h.id};drawUserHL(p);setTimeout(()=>{if(!document.body.classList.contains('hl-mode')){hlSel=null;drawUserHL(p)}},1600)},450)};
+   it.querySelector('.x').onclick=e=>{e.stopPropagation();deleteHL(p,h.id);toast('ลบไฮไลต์แล้ว')};
+   hlSnippet(p,h).then(s=>{if(s)it.querySelector('.tx').textContent='“'+s+'”'});
+   g.appendChild(it);
+  });
+  l.appendChild(g);
+ });
+}
+$('#hlClearAll').onclick=async()=>{const n=hlTotal();if(!n)return;if(await askConfirm('ลบไฮไลต์ทั้งหมด?',`ลบไฮไลต์ทั้งหมด ${n} รายการในทุกหน้า ใช่หรือไม่ (ย้อนกลับไม่ได้)`,'ลบทั้งหมด')){const ps=Object.keys(S.hl).map(Number);S.hl={};selectHL(null);save();ps.forEach(drawUserHL);renderHL();updateHlBar();toast('ลบไฮไลต์ทั้งหมดแล้ว')}};
+$('#hlPenBtn').onclick=()=>setPen(true);
+
+/* ---------- zoom: 10% steps, pinch with live transform, pan when zoomed ---------- */
+const ZMIN=.7, ZMAX=2, ZSTEP=.1;
+const clampZ=z=>Math.round(Math.min(ZMAX,Math.max(ZMIN,z))*100)/100;
+function focalAt(x,y){const r=$('#book').getBoundingClientRect();return {fx:(x-r.left)/r.width,fy:(y-r.top)/r.height,tx:x,ty:y}}
+function updateZoomUI(z){$('#zoomVal').textContent=Math.round((z||S.zoom)*100)+'%'}
+let zoomHintShown=false;
+function setZoom(z,f,quiet){
+ z=clampZ(z);const st=$('#stage');
+ if(!f){const sr=st.getBoundingClientRect();f=focalAt(sr.left+sr.width/2,sr.top+sr.height/2)}
+ const changed=z!==S.zoom;S.zoom=z;save();updateZoomUI();
+ if(flip&&flip.getState()!=='read'){rebuild(true);return}
+ buildBook();
+ const r=$('#book').getBoundingClientRect();
+ st.scrollLeft+=r.left+f.fx*r.width-f.tx;st.scrollTop+=r.top+f.fy*r.height-f.ty;
+ if(searchQ)setSearchQ(searchQ);placeHlDel();
+ if(changed&&!quiet)toast('ซูม '+Math.round(z*100)+'%');
+ if(changed&&z>1&&!zoomHintShown){zoomHintShown=true;setTimeout(()=>toast(IS_TOUCH?'ขยายอยู่: ลากนิ้วเพื่อเลื่อนดู • ใช้ปุ่ม ‹ › เพื่อพลิกหน้า':'ขยายอยู่: ลากเมาส์/เลื่อนเพื่อดูส่วนอื่น • ใช้ปุ่ม ‹ › หรือลูกศรเพื่อพลิกหน้า'),900)}
+}
+function zoom(d){if(d===0)setZoom(1);else setZoom(Math.round((S.zoom+d*ZSTEP)*10)/10)}
+const IS_TOUCH=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+let P=null;
+const pinching=()=>!!P;
+function pinchBegin(mx,my){
+ const h=$('#holder');h.style.transform='';const hr=h.getBoundingClientRect();
+ P={z0:S.zoom,m0x:mx,m0y:my,f:focalAt(mx,my),hx:hr.left,hy:hr.top,s:1,mx,my};
+ h.style.transformOrigin='0 0';h.style.willChange='transform';
+ cancelHlDraw();$('#hlDel').classList.remove('show');
+}
+function pinchUpdate(s,mx,my){
+ if(!P)return;const z=Math.min(ZMAX,Math.max(ZMIN,P.z0*s));s=z/P.z0;P.s=s;P.mx=mx;P.my=my;
+ const tx=mx-P.hx-s*(P.m0x-P.hx), ty=my-P.hy-s*(P.m0y-P.hy);
+ $('#holder').style.transform=`translate3d(${tx}px,${ty}px,0) scale(${s})`;updateZoomUI(z);
+}
+function pinchCommit(){
+ if(!P)return;const h=$('#holder');const f=Object.assign({},P.f,{tx:P.mx,ty:P.my});const z=P.z0*P.s;P=null;
+ h.style.transform='';h.style.willChange='';
+ setZoom(Math.abs(z-S.zoom)<.02?S.zoom:z,f,true);
+ if(Math.abs(z-S.zoom)>=.005)updateZoomUI();
+}
+function cancelLibTouch(){try{const ui=flip.getUI();ui.touchPoint=null;if(flip.isUserTouch){flip.isUserTouch=false;if(flip.isUserMove)flip.getFlipController().stopMove()}}catch(e){}}
+const tdist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+const tmid=t=>({x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2});
+let pinchD0=0, swallowTouch=false;
+function inStage(t){const r=$('#stage').getBoundingClientRect();for(let i=0;i<t.length;i++){const x=t[i].clientX,y=t[i].clientY;if(x<r.left||x>r.right||y<r.top||y>r.bottom)return false}return true}
+window.addEventListener('touchstart',e=>{
+ if(e.touches.length>=2&&!P&&!$('.modal.show')&&!$('#drawer').classList.contains('open')&&inStage(e.touches)){
+  e.preventDefault();e.stopPropagation();cancelLibTouch();
+  pinchD0=Math.max(10,tdist(e.touches));const m=tmid(e.touches);pinchBegin(m.x,m.y);swallowTouch=true;
+ }else if(swallowTouch){e.preventDefault();e.stopPropagation()}
+},{capture:true,passive:false});
+window.addEventListener('touchmove',e=>{
+ if(P&&e.touches.length>=2){e.preventDefault();e.stopPropagation();const m=tmid(e.touches);pinchUpdate(tdist(e.touches)/pinchD0,m.x,m.y)}
+ else if(swallowTouch){e.preventDefault();e.stopPropagation()}
+},{capture:true,passive:false});
+function touchEndCap(e){if(!swallowTouch)return;e.stopPropagation();if(P&&e.touches.length<2)pinchCommit();if(e.touches.length===0)swallowTouch=false}
+window.addEventListener('touchend',touchEndCap,{capture:true,passive:false});
+window.addEventListener('touchcancel',touchEndCap,{capture:true,passive:false});
+/* trackpad pinch / ctrl+wheel: same live transform, commit when idle */
+let wheelT=null;
+$('#stage').addEventListener('wheel',e=>{
+ if(!e.ctrlKey)return;e.preventDefault();
+ if(!P)pinchBegin(e.clientX,e.clientY);
+ const s=P.s*Math.exp(-e.deltaY*(e.deltaMode===1?.05:.0022));pinchUpdate(s,P.mx,P.my);
+ clearTimeout(wheelT);wheelT=setTimeout(pinchCommit,180);
+},{passive:false});
+/* drag-to-pan with the mouse when zoomed (touch uses native scrolling) */
+let panS=null;
+$('#stage').addEventListener('mousedown',e=>{if(!document.body.classList.contains('zoomed')||document.body.classList.contains('hl-mode')||e.button!==0||e.target.closest('button,a,input'))return;
+ const st=$('#stage');panS={x:e.clientX,y:e.clientY,l:st.scrollLeft,t:st.scrollTop};st.classList.add('panning');e.preventDefault()});
+window.addEventListener('mousemove',e=>{if(!panS)return;const st=$('#stage');st.scrollLeft=panS.l-(e.clientX-panS.x);st.scrollTop=panS.t-(e.clientY-panS.y)});
+window.addEventListener('mouseup',()=>{if(panS){panS=null;$('#stage').classList.remove('panning')}});
+$('#stage').addEventListener('scroll',()=>{if(hlSel)placeHlDel()},{passive:true});
 
 /* drawer */
-const titles={toc:'สารบัญ',thumbs:'ภาพย่อทุกหน้า',search:'ค้นหาข้อความ',marks:'ที่คั่นหน้า',notes:'บันทึกและไฮไลต์'};
+
+const titles={hl:'ไฮไลต์',toc:'สารบัญ',thumbs:'ภาพย่อทุกหน้า',search:'ค้นหาข้อความ',marks:'ที่คั่นหน้า',notes:'บันทึกและไฮไลต์'};
 function openDrawer(p){
  $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.pane===p));$$('.pane').forEach(x=>x.classList.toggle('on',x.id==='pane-'+p));
  $('#drawerTitle').textContent=titles[p];$('#drawer').classList.add('open');$('#scrim').classList.add('show');$('#drawer').dataset.pane=p;
@@ -739,8 +957,6 @@ function setTheme(t){if(!THEMES.includes(t))t='day';S.theme=t;save();document.bo
  document.querySelector('meta[name=theme-color]').content=t==='night'?'#111318':t==='sepia'?'#5e4328':'#1b2a4a'}
 function cycleTheme(){const t=THEMES[(THEMES.indexOf(S.theme)+1)%3];setTheme(t);toast({day:'โหมดกลางวัน ☀️',sepia:'โหมดซีเปีย ☕',night:'โหมดกลางคืน 🌙'}[t])}
 function setSound(v){S.sound=v;save();$('#soundIcon').setAttribute('href',v?'#i-vol':'#i-mute')}
-const ZL=[.6,.75,.9,1,1.15,1.3,1.5,1.75,2,2.5];
-function zoom(d){let i=ZL.indexOf(S.zoom);if(i<0)i=3;i=d===0?3:Math.max(0,Math.min(ZL.length-1,i+d));S.zoom=ZL[i];save();$('#zoomVal').textContent=Math.round(S.zoom*100)+'%';toast('ซูม '+Math.round(S.zoom*100)+'%');rebuild(true)}
 const FS_OK=!STANDALONE&&!!(document.fullscreenEnabled||document.webkitFullscreenEnabled);
 if(!FS_OK)document.body.classList.add('no-fs');
 function toggleFull(){
@@ -763,7 +979,7 @@ $('#bFirst').onclick=()=>go(0,false);$('#bLast').onclick=()=>go(TOTAL-1,false);
 $('#bMore').onclick=e=>{e.stopPropagation();$('#moreMenu').classList.toggle('show')};
 document.addEventListener('click',e=>{if(!e.target.closest('#moreMenu')&&!e.target.closest('#bMore'))$('#moreMenu').classList.remove('show')});
 $$('#themeSeg button').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
-const acts={thumbs:()=>openDrawer('thumbs'),marks:()=>openDrawer('marks'),notes:()=>openDrawer('notes'),pen:()=>setPen(true),zin:()=>zoom(1),zout:()=>zoom(-1),sound:()=>$('#bSound').click(),full:toggleFull,help:()=>$('#helpModal').classList.add('show'),download:downloadPdf};
+const acts={hl:()=>openDrawer('hl'),thumbs:()=>openDrawer('thumbs'),marks:()=>openDrawer('marks'),notes:()=>openDrawer('notes'),pen:()=>setPen(true),zin:()=>zoom(1),zout:()=>zoom(-1),sound:()=>$('#bSound').click(),full:toggleFull,help:()=>$('#helpModal').classList.add('show'),download:downloadPdf};
 $$('#moreMenu button[data-act]').forEach(b=>b.onclick=()=>{$('#moreMenu').classList.remove('show');acts[b.dataset.act]()});
 function b64bytes(){const bin=atob(PDF_B64);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u}
 function downloadPdf(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([b64bytes()],{type:'application/pdf'}));a.download=BOOK.file+'.pdf';document.body.appendChild(a);a.click();a.remove()}
@@ -778,10 +994,11 @@ $('#pageInput').addEventListener('blur',()=>onPageChange());
 document.addEventListener('keydown',e=>{
  const tag=(e.target.tagName||'').toLowerCase();
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){e.preventDefault();openDrawer('search');return}
- if(e.key==='Escape'){if($('.modal.show')){closeModals();return}if(document.body.classList.contains('hl-mode')){setPen(false);return}closeDrawer();$('#moreMenu').classList.remove('show');return}
+ if(e.key==='Escape'){if($('#confirmModal.show')){cfDone(false);return}if($('.modal.show')){closeModals();return}if(hlSel){selectHL(null);return}if(document.body.classList.contains('hl-mode')){setPen(false);return}closeDrawer();$('#moreMenu').classList.remove('show');return}
  if(tag==='input'||tag==='textarea'||e.ctrlKey||e.metaKey||e.altKey)return;
  if($('.modal.show'))return;
  const k=e.key.length===1?e.key.toLowerCase():e.key;
+ if((k==='Delete'||k==='Backspace')&&hlSel){e.preventDefault();deleteHL(hlSel.p,hlSel.id);toast('ลบไฮไลต์แล้ว');return}
  if(k==='ArrowRight'||k==='PageDown'||k===' '||k==='ArrowDown'&&false){e.preventDefault();next()}
  else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();prev()}
  else if(k==='Home'){e.preventDefault();go(0,false)}else if(k==='End'){e.preventDefault();go(TOTAL-1,false)}
@@ -793,17 +1010,13 @@ document.addEventListener('keydown',e=>{
  else if(k==='m')cycleTheme();else if(k==='s')$('#bSound').click();
  else if(k==='f')toggleFull();else if(k==='?')$('#helpModal').classList.add('show');
 });
-$('#stage').addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();zoom(e.deltaY<0?1:-1)}},{passive:false});
 let rt;function rebuild(now){clearTimeout(rt);rt=setTimeout(()=>{if(flip&&flip.getState()!=='read'){rebuild();return}buildBook();if(searchQ)setSearchQ(searchQ)},now?0:200)}
-window.addEventListener('resize',()=>rebuild());
+window.addEventListener('resize',()=>{rebuild();if(document.body.classList.contains('hl-mode'))setTimeout(placeOverlay,250)});
 document.addEventListener('fullscreenchange',()=>rebuild());
 document.addEventListener('webkitfullscreenchange',()=>rebuild());
 window.addEventListener('orientationchange',()=>setTimeout(()=>rebuild(true),250));
 /* iOS: block page pinch-zoom (mapped to app zoom) & double-tap zoom; unlock WebAudio on first touch */
-let gScale=1;
-document.addEventListener('gesturestart',e=>{e.preventDefault();gScale=1},{passive:false});
-document.addEventListener('gesturechange',e=>{e.preventDefault();gScale=e.scale},{passive:false});
-document.addEventListener('gestureend',e=>{e.preventDefault();if(gScale>1.2)zoom(1);else if(gScale<.83)zoom(-1)},{passive:false});
+['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
 let lastTouchEnd=0;
 document.addEventListener('touchend',e=>{const now=Date.now();if(now-lastTouchEnd<300&&!(e.target.closest&&e.target.closest('input,textarea,.dbody,button')))e.preventDefault();lastTouchEnd=now},{passive:false});
 function unlockAudio(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state!=='running')actx.resume();const b=actx.createBuffer(1,1,22050),s=actx.createBufferSource();s.buffer=b;s.connect(actx.destination);s.start(0)}catch(e){}
@@ -813,20 +1026,28 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&actx&&act
 
 /* boot */
 async function boot(){
- setTheme(S.theme);setSound(S.sound!==false);if(!ZL.includes(S.zoom))S.zoom=1;$('#zoomVal').textContent=Math.round(S.zoom*100)+'%';
+ setTheme(S.theme);setSound(S.sound!==false);S.zoom=clampZ(+S.zoom||1);$('#zoomVal').textContent=Math.round(S.zoom*100)+'%';
  const wsrc=document.getElementById('pdfWorkerSrc').textContent;
  pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([wsrc],{type:'text/javascript'}));
  pdf=await pdfjsLib.getDocument({data:b64bytes(),isEvalSupported:false}).promise;
- buildBook();renderMarks();renderNotes();
+ buildBook();renderMarks();renderNotes();renderHL();
  setTimeout(()=>{const s=$('#splash');s.style.opacity=0;setTimeout(()=>s.remove(),500)},300);
  if(S.page>0)setTimeout(()=>toast('เปิดต่อจากที่อ่านค้างไว้ — '+label(S.page)),800);
  if(window.__PWA){
-  if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW',e));
+  if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+   const hadCtl=!!navigator.serviceWorker.controller;let reloading=false;
+   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!hadCtl||reloading)return;reloading=true;try{sessionStorage.setItem('ebook:updated','1')}catch(e){}location.reload()});
+   navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>{
+    const chk=()=>reg.update().catch(()=>{});setInterval(chk,30*60*1000);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+   }).catch(e=>console.warn('SW',e));
+   try{if(sessionStorage.getItem('ebook:updated')){sessionStorage.removeItem('ebook:updated');setTimeout(()=>toast('อัปเดตเป็นเวอร์ชันใหม่แล้ว ✨ ('+APP_VERSION+')'),1200)}}catch(e){}
+  }
   let seen=null;try{seen=localStorage.getItem('ebook:installTipSeen')}catch(e){}
   if(IS_IOS&&!STANDALONE&&!seen)setTimeout(()=>$('#installTip').classList.add('show'),2500);
  }
  $('#installClose').onclick=()=>{$('#installTip').classList.remove('show');try{localStorage.setItem('ebook:installTipSeen','1')}catch(e){}};
- window.__ebook={get flip(){return flip},go,next,prev,doSearch,visibleIdx,cache,thumbs,state:()=>S,get searchQ(){return searchQ},IS_IOS,STANDALONE,FS_OK,targetW};
+ window.__ebook={get flip(){return flip},go,next,prev,doSearch,visibleIdx,cache,thumbs,state:()=>S,APP_VERSION,setZoom,get zoom(){return S.zoom},hl:()=>S.hl,get searchQ(){return searchQ},IS_IOS,STANDALONE,FS_OK,targetW};
 }
 boot().catch(err=>{console.error(err);$('#splash').innerHTML='<div style="padding:20px;text-align:center">เปิดหนังสือไม่สำเร็จ: '+esc(String(err))+'</div>'});
 })();

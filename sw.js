@@ -1,14 +1,30 @@
 /* Offline service worker for the e-book reader */
-const CACHE='ebook-police-nco-2569-v1';
+const VERSION='v2';
+const CACHE='ebook-police-nco-2569-'+VERSION;
 const ASSETS=['./','./index.html','./manifest.webmanifest','./apple-touch-icon.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
+self.addEventListener('install',e=>{
+  // bypass the HTTP cache so a new version never precaches stale files
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('ebook-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('message',e=>{if(e.data==='skipWaiting')self.skipWaiting()});
+function fromNetwork(req,timeout){
+  return new Promise((res,rej)=>{
+    const t=setTimeout(()=>rej(new Error('timeout')),timeout);
+    fetch(req,{cache:'no-cache'}).then(r=>{clearTimeout(t);if(r&&r.ok){const cp=r.clone();caches.open(CACHE).then(c=>c.put('./index.html',cp))}res(r)},err=>{clearTimeout(t);rej(err)});
+  });
+}
 self.addEventListener('fetch',e=>{
   const req=e.request; if(req.method!=='GET')return;
   const url=new URL(req.url); if(url.origin!==location.origin)return;
-  e.respondWith(caches.match(req,{ignoreSearch:true}).then(hit=>{
-    if(hit)return hit;
-    return fetch(req).then(res=>{ if(res&&res.ok){const cp=res.clone();caches.open(CACHE).then(c=>c.put(req,cp))} return res; })
-      .catch(()=>req.mode==='navigate'?caches.match('./index.html'):Response.error());
-  }));
+  if(req.mode==='navigate'){
+    // network-first (fresh version when online), cached copy when offline / slow
+    e.respondWith(fromNetwork(req,4000).catch(()=>caches.match('./index.html',{ignoreSearch:true})));
+    return;
+  }
+  e.respondWith(caches.match(req,{ignoreSearch:true}).then(hit=>hit||fetch(req).then(res=>{
+    if(res&&res.ok){const cp=res.clone();caches.open(CACHE).then(c=>c.put(req,cp))}return res;
+  })));
 });
