@@ -62,11 +62,15 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stro
 .sep{width:1px;height:24px;background:var(--ui-line);margin:0 4px}
 .zoomval{font-size:13px;min-width:46px;text-align:center;font-variant-numeric:tabular-nums;color:var(--ui-sub);cursor:pointer}
 #stage{position:relative;flex:1;min-height:0;overflow:auto;display:flex;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-#holder{margin:auto;padding:26px 60px;position:relative}
+#holder{margin:auto;padding:10px;position:relative;box-sizing:border-box}
 #book{position:relative}
-.navarrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:48px;height:96px;border:0;border-radius:14px;background:rgba(0,0,0,.18);color:#fff;cursor:pointer;display:grid;place-items:center;opacity:.55;transition:opacity .2s,background .2s}
+.navarrow{position:fixed;top:50%;transform:translateY(-50%);z-index:20;width:56px;height:132px;border:0;border-radius:16px;background:rgba(0,0,0,.2);color:#fff;cursor:pointer;display:grid;place-items:center;opacity:.7;transition:opacity .2s,background .2s;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.navarrow.over{width:46px;background:rgba(20,12,6,.22);opacity:.62;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+.navarrow:active{opacity:1;background:rgba(0,0,0,.42)}
+body.hl-mode .navarrow.over{opacity:.35}
 .navarrow svg.i{width:28px;height:28px}
-#prevArrow{left:10px}#nextArrow{right:10px}
+#prevArrow{left:max(8px,env(safe-area-inset-left))}#nextArrow{right:max(8px,env(safe-area-inset-right))}
+.navarrow.over#prevArrow{left:max(2px,env(safe-area-inset-left))}.navarrow.over#nextArrow{right:max(2px,env(safe-area-inset-right))}
 .page-inner{position:absolute;inset:0;background:#fff}
 .page .clip{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
 .page .pcanvas{position:absolute;inset:0;background-size:100% 100%;background-color:#fff}
@@ -236,7 +240,7 @@ body.theme-night .hl-user .pen{filter:invert(.88) hue-rotate(180deg)}
 .hl-it .tx b{display:block;font-size:13px;font-weight:600}
 .hl-it .tx .sn{display:block;color:var(--ui-sub);font-size:12.5px}
 .hl-it .tx{display:block}
-@media (max-width:900px){.navarrow{display:none}#holder{padding:14px 10px}}
+
 @media (max-width:1020px){.hide-md{display:none!important}}
 #installTip{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:85;display:none;align-items:center;gap:10px;width:max-content;max-width:92vw;background:var(--panel-bg);color:var(--ui-fg);padding:12px 14px;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.4);font-size:14px;line-height:1.5}
 #installTip.show{display:flex}
@@ -244,8 +248,6 @@ body.theme-night .hl-user .pen{filter:invert(.88) hue-rotate(180deg)}
 @media (max-width:700px){
   .brand .t span{display:none}.brand .t b{font-size:13.5px}
   .hide-sm{display:none!important}
-  #holder{padding:12px 8px}
-  .navarrow{display:none}
   .pct{display:none}
   .btn{min-width:34px;padding:0 6px}
   #drawer{width:100vw;max-width:100vw}
@@ -314,7 +316,9 @@ body.theme-night .hl-user .pen{filter:invert(.88) hue-rotate(180deg)}
   </div>
   <div class="more-menu" id="moreMenu">
    <div style="padding:8px 10px 10px"><div style="font-size:12px;color:var(--ui-sub);margin-bottom:6px">โหมดการอ่าน</div>
-    <div class="seg" id="themeSeg"><button data-t="day">กลางวัน</button><button data-t="sepia">ซีเปีย</button><button data-t="night">กลางคืน</button></div></div>
+    <div class="seg" id="themeSeg"><button data-t="day">กลางวัน</button><button data-t="sepia">ซีเปีย</button><button data-t="night">กลางคืน</button></div>
+    <div style="font-size:12px;color:var(--ui-sub);margin:10px 0 6px">การพลิกหน้า</div>
+    <div class="seg" id="fxSeg"><button data-fx="curl">ม้วนกระดาษ</button><button data-fx="slide">เลื่อน</button><button data-fx="none">ทันที</button></div></div>
    <button data-act="thumbs"><svg class="i"><use href="#i-grid"/></svg>ภาพย่อทุกหน้า</button>
    <button data-act="marks"><svg class="i"><use href="#i-bm"/></svg>รายการที่คั่นหน้า</button>
    <button data-act="notes"><svg class="i"><use href="#i-note"/></svg>บันทึก</button>
@@ -397,7 +401,7 @@ body.theme-night .hl-user .pen{filter:invert(.88) hue-rotate(180deg)}
   <span><kbd>F</kbd></span><span>เต็มจอ</span>
   <span><kbd>Esc</kbd></span><span>ปิดแผง / หน้าต่าง</span>
  </div>
- <p style="font-size:13.5px;color:var(--ui-sub);line-height:1.7;margin:16px 0 0">🖱️ ลากมุมกระดาษเพื่อพลิกหน้าแบบหนังสือจริง หรือคลิกที่ขอบซ้าย/ขวาของหน้า • 📱 บนมือถือปัดซ้าย/ขวาเพื่อพลิก • ตำแหน่งที่อ่านล่าสุด ที่คั่น บันทึก และไฮไลต์ จะถูกบันทึกไว้ในเบราว์เซอร์นี้โดยอัตโนมัติ</p>
+ <p style="font-size:13.5px;color:var(--ui-sub);line-height:1.7;margin:16px 0 0">👆 แตะขอบซ้าย/ขวาของหน้า กดปุ่ม ‹ › หรือปัดซ้าย/ขวาสั้น ๆ เพื่อพลิกหน้า • ลากมุมกระดาษเพื่อพลิกแบบหนังสือจริง • ปิดแอนิเมชันม้วนกระดาษได้ในเมนู ⋯ • ตำแหน่งที่อ่านล่าสุด ที่คั่น บันทึก และไฮไลต์ จะถูกบันทึกไว้ในเบราว์เซอร์นี้โดยอัตโนมัติ</p>
  <div style="text-align:right;margin-top:16px"><button class="pbtn" data-close>เข้าใจแล้ว</button></div>
 </div></div>
 <div class="modal" id="noteModal"><div class="card">
@@ -464,9 +468,9 @@ const BOOK={"id": "a27aa88fb6", "title": "แนวข้อสอบนาย�
 <script>(()=>{
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const APP_VERSION='v3';
+const APP_VERSION='v4';
 const NP=BOOK.pages, TOTAL=NP+1, RATIO=BOOK.w/BOOK.h, KEY='ebook:'+BOOK.id, THEMES=['day','sepia','night'];
-let S={page:0,bookmarks:[],notes:{},hl:{},theme:'day',sound:true,zoom:1};
+let S={page:0,bookmarks:[],notes:{},hl:{},theme:'day',sound:true,zoom:1,fx:'curl'};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 let pdf=null, flip=null, pageEls=[], curIdx=S.page|0, single=false, pw=0, ph=0, lastSingle=null, lastZoomed=null;
@@ -513,14 +517,38 @@ function playFlip(){
 }
 
 /* book construction */
-function computeSize(){
+let fitK=1, fitKey='';
+function fitMetrics(){
  const st=$('#stage');const W=st.clientWidth, H=st.clientHeight;
  single = W<500;                                   // two-page spread everywhere except very small phones
- const padX= W<500?16:(W<900?22:(IS_IOS?124:140)), padY= W<500?20:(W<900?30:(IS_IOS?36:56));
- const aw=W-padX, ah=H-padY;
- let h=Math.min(ah,(single?aw:aw/2)/RATIO); h=Math.max(h,180);
- h=Math.floor(h*S.zoom); const w=Math.floor(h*RATIO);
- return {w,h};
+ const wide=W>=1100;                               // room for side arrows outside the book
+ const mx= wide?72:(W<500?6:10), my= (wide&&H>640)?20:(W<500?8:10);
+ return {W,H,mx,my};
+}
+function computeSize(){
+ const {W,H,mx,my}=fitMetrics();
+ const key=W+'x'+H+(single?'s':'d');if(key!==fitKey){fitKey=key;fitK=1}
+ const aw=Math.max(80,W-2*mx-2), ah=Math.max(80,H-2*my-2);
+ // fit by width AND height, keep the PDF aspect ratio
+ let w=Math.min(single?aw:aw/2, ah*RATIO)*fitK;
+ w=Math.floor(w*S.zoom); const h=Math.floor(w/RATIO);
+ $('#holder').style.padding=my+'px '+mx+'px';
+ return {w:Math.max(40,w),h:Math.max(56,h)};
+}
+function placeArrows(){
+ const st=$('#stage'),b=$('#book');if(!st||!b)return;const sr=st.getBoundingClientRect(),br=b.getBoundingClientRect();
+ const free=Math.min(br.left-sr.left,sr.right-br.right);
+ const ov=S.zoom>1.001||free<60;
+ $$('.navarrow').forEach(a=>{a.classList.toggle('over',ov);a.style.top=(sr.top+sr.height/2)+'px'});
+}
+function checkFit(){ // safety net: at fit zoom the whole book must be inside the stage (between the bars)
+ if(S.zoom>1.001||!flip)return false;
+ const sr=$('#stage').getBoundingClientRect(),br=$('#book').getBoundingClientRect();
+ if(br.width<2)return false;
+ if(br.left<sr.left-.5||br.top<sr.top-.5||br.right>sr.right+.5||br.bottom>sr.bottom+.5){
+  if(fitK>.8){fitK*=.97;pw=0;return true}
+ }
+ return false;
 }
 function makePage(i){
  const d=document.createElement('div');
@@ -548,7 +576,7 @@ function makePage(i){
 function buildBook(){
  const {w,h}=computeSize();
  const zoomed=S.zoom>1.001;document.body.classList.toggle('zoomed',zoomed);
- if(flip&&w===pw&&h===ph&&single===lastSingle&&zoomed===lastZoomed)return;
+ if(flip&&w===pw&&h===ph&&single===lastSingle&&zoomed===lastZoomed){placeArrows();return}
  if(flip){curIdx=flip.getCurrentPageIndex();try{flip.destroy()}catch(e){}}
  pw=w;ph=h;lastSingle=single;lastZoomed=zoomed;const hd=document.getElementById('hlDel');if(hd)hd.classList.remove('show');
  const holder=$('#holder');holder.innerHTML='';
@@ -558,14 +586,17 @@ function buildBook(){
  root.style.setProperty('--bc1',Math.max(11,w*.045)+'px');root.style.setProperty('--bc2',Math.max(9,w*.024)+'px');
  holder.appendChild(root);
  pageEls=[];for(let i=0;i<TOTAL;i++){const p=makePage(i);pageEls.push(p);root.appendChild(p)}
- flip=new St.PageFlip(root,{width:w,height:h,size:'fixed',autoSize:false,showCover:true,usePortrait:single,drawShadow:true,maxShadowOpacity:.55,flippingTime:750,mobileScrollSupport:false,swipeDistance:25,showPageCorners:true,startPage:Math.min(curIdx,TOTAL-1),clickEventForward:true,startZIndex:2,useMouseEvents:!zoomed});
+ const curl=S.fx==='curl';
+ flip=new St.PageFlip(root,{width:w,height:h,size:'fixed',autoSize:false,showCover:true,usePortrait:single,drawShadow:true,maxShadowOpacity:.55,flippingTime:700,mobileScrollSupport:false,swipeDistance:1e5,showPageCorners:curl,disableFlipByClick:true,startPage:Math.min(curIdx,TOTAL-1),clickEventForward:true,startZIndex:2,useMouseEvents:curl&&!zoomed});
  flip.loadFromHTML(pageEls);
  flip.on('flip',e=>{curIdx=e.data;onPageChange()});
- flip.on('changeState',e=>{if(e.data==='flipping')playFlip()});
+ flip.on('changeState',e=>{if(e.data==='flipping')playFlip();else if(e.data==='read'&&pendingTurn){const d=pendingTurn;pendingTurn=0;setTimeout(()=>turn(d),0)}});
  pageEls.forEach((el,i)=>{el.classList.toggle('bookmarked',S.bookmarks.includes(i+1));el.classList.toggle('has-note',!!S.notes[i+1])});
  for(let p=1;p<=NP;p++)drawUserHL(p);
  curIdx=flip.getCurrentPageIndex();
  onPageChange();
+ if(checkFit()){buildBook();return}
+ placeArrows();
 }
 function visibleIdx(){
  const c=flip?flip.getCurrentPageIndex():curIdx;
@@ -597,11 +628,22 @@ function go(i,animate=true){
  i=Math.max(0,Math.min(TOTAL-1,i));if(!flip)return;
  const vis=visibleIdx();if(vis.includes(i)){flash(i);return}
  const dist=Math.abs(i-vis[0]);
- if(animate&&dist<=4){flip.flip(i,'bottom');setTimeout(()=>flash(i),820)}
+ if(animate&&dist<=4&&S.fx==='curl'){flip.flip(i,'bottom');setTimeout(()=>flash(i),820)}
  else{flip.turnToPage(i);curIdx=i;onPageChange();playFlip();setTimeout(()=>flash(i),60)}
 }
 function flash(i){const el=pageEls[i];if(!el)return;el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1100)}
-const next=()=>{if(flip)flip.flipNext('bottom')}, prev=()=>{if(flip)flip.flipPrev('bottom')};
+let pendingTurn=0;
+function turn(d){
+ if(!flip)return;
+ if(S.fx==='curl'){
+  if(flip.getState()!=='read'){pendingTurn=d;return}   // queue rapid taps instead of dropping them
+  d>0?flip.flipNext('bottom'):flip.flipPrev('bottom');return;
+ }
+ const vis=visibleIdx();const t=d>0?vis[vis.length-1]+1:vis[0]-1;if(t<0||t>=TOTAL)return;
+ flip.turnToPage(t);curIdx=flip.getCurrentPageIndex();onPageChange();
+ if(S.fx==='slide'){playFlip();const b=$('#book');try{b.animate([{transform:`translateX(${d*36}px)`,opacity:.25},{transform:'none',opacity:1}],{duration:230,easing:'cubic-bezier(.2,.8,.2,1)'})}catch(e){}}
+}
+const next=()=>turn(1), prev=()=>turn(-1);
 
 /* rendering pipeline (pdf.js, lazy, priority to visible pages) */
 let queue=[], rendering=false;
@@ -957,7 +999,7 @@ $('#hlPenBtn').onclick=()=>setPen(true);
 const ZMIN=.7, ZMAX=2, ZSTEP=.1;
 const clampZ=z=>Math.round(Math.min(ZMAX,Math.max(ZMIN,z))*100)/100;
 function focalAt(x,y){const r=$('#book').getBoundingClientRect();return {fx:(x-r.left)/r.width,fy:(y-r.top)/r.height,tx:x,ty:y}}
-function updateZoomUI(z){$('#zoomVal').textContent=Math.round((z||S.zoom)*100)+'%'}
+function updateZoomUI(z){z=z||S.zoom;$('#zoomVal').textContent=Math.abs(z-1)<.005?'พอดี':Math.round(z*100)+'%'}
 let zoomHintShown=false;
 function setZoom(z,f,quiet){
  z=clampZ(z);const st=$('#stage');
@@ -968,15 +1010,15 @@ function setZoom(z,f,quiet){
  const r=$('#book').getBoundingClientRect();
  st.scrollLeft+=r.left+f.fx*r.width-f.tx;st.scrollTop+=r.top+f.fy*r.height-f.ty;
  if(searchQ)setSearchQ(searchQ);placeHlDel();
- if(changed&&!quiet)toast('ซูม '+Math.round(z*100)+'%');
+ if(changed&&!quiet)toast(z===1?'พอดีหน้าจอ':'ซูม '+Math.round(z*100)+'%');
  if(changed&&z>1&&!zoomHintShown){zoomHintShown=true;setTimeout(()=>toast(IS_TOUCH?'ขยายอยู่: ลากนิ้วเพื่อเลื่อนดู • ใช้ปุ่ม ‹ › เพื่อพลิกหน้า':'ขยายอยู่: ลากเมาส์/เลื่อนเพื่อดูส่วนอื่น • ใช้ปุ่ม ‹ › หรือลูกศรเพื่อพลิกหน้า'),900)}
 }
 function zoom(d){if(d===0)setZoom(1);else setZoom(Math.round((S.zoom+d*ZSTEP)*10)/10)}
 const IS_TOUCH=('ontouchstart' in window)||navigator.maxTouchPoints>0;
-let P=null;
+let P=null, pinchN=0, G=null;
 const pinching=()=>!!P;
 function pinchBegin(mx,my){
- const h=$('#holder');h.style.transform='';const hr=h.getBoundingClientRect();
+ pinchN++;G=null;const h=$('#holder');h.style.transform='';const hr=h.getBoundingClientRect();
  P={z0:S.zoom,m0x:mx,m0y:my,f:focalAt(mx,my),hx:hr.left,hy:hr.top,s:1,mx,my};
  h.style.transformOrigin='0 0';h.style.willChange='transform';
  cancelHlDraw();$('#hlDel').classList.remove('show');
@@ -1025,6 +1067,67 @@ $('#stage').addEventListener('mousedown',e=>{if(!document.body.classList.contain
 window.addEventListener('mousemove',e=>{if(!panS)return;const st=$('#stage');st.scrollLeft=panS.l-(e.clientX-panS.x);st.scrollTop=panS.t-(e.clientY-panS.y)});
 window.addEventListener('mouseup',()=>{if(panS){panS=null;$('#stage').classList.remove('panning')}});
 $('#stage').addEventListener('scroll',()=>{if(hlSel)placeHlDel()},{passive:true});
+/* ---------- easy page turning: tap outer edge zones, short/quick swipes; library keeps only corner curl-drags ---------- */
+const CORNER_W=.2, CORNER_H=.22;
+function bookRect(){const b=$('#book');return b?b.getBoundingClientRect():null}
+function inCorner(x,y){
+ if(S.fx!=='curl')return false;const r=bookRect();if(!r)return false;
+ const rx=(x-r.left)/r.width, ry=(y-r.top)/r.height;if(rx<0||rx>1||ry<0||ry>1)return false;
+ const cw=single?CORNER_W:CORNER_W/2;
+ return (rx<cw||rx>1-cw)&&(ry<CORNER_H||ry>1-CORNER_H);
+}
+function tapDir(x,y){const r=bookRect();if(!r)return 0;const rx=(x-r.left)/r.width;const z=single?.28:.14; // outer ~28% of a page
+ if(rx<z)return -1;if(rx>1-z)return 1;return 0}
+function gAllowed(target){
+ const b=document.body.classList;
+ if(b.contains('hl-mode')||b.contains('zoomed')||P)return false;
+ if($('.modal.show')||$('#drawer').classList.contains('open'))return false;
+ if(target&&target.closest&&target.closest('button,a,input,textarea,select,.note-pin,#hlDel,#hlBar'))return false;
+ return true;
+}
+function gStart(x,y,target,touch){
+ if(!flip||!gAllowed(target)){G=null;return null}
+ G={x,y,t:performance.now(),idx:flip.getCurrentPageIndex(),corner:inCorner(x,y),touch,pn:pinchN,moved:0};return G;
+}
+function gEnd(x,y){
+ const g=G;G=null;if(!g||g.pn!==pinchN||P)return;
+ const dx=x-g.x,dy=y-g.y,dt=Math.max(1,performance.now()-g.t),adx=Math.abs(dx),ady=Math.abs(dy);
+ let d=0;
+ if(adx<12&&ady<12&&dt<700)d=tapDir(g.x,g.y);
+ else if(adx>ady*1.2&&(adx>=30||(adx>=12&&adx/dt>.3)))d=dx<0?1:-1;
+ if(!d)return;
+ // if the page-flip library already handled it (corner click/drag), don't turn twice
+ setTimeout(()=>{if(!flip)return;if(flip.getState()!=='read'||flip.getCurrentPageIndex()!==g.idx)return;turn(d);window.__ebookTurns=(window.__ebookTurns||0)+1},40);
+}
+let lastTouchT=0;
+const stg=$('#stage');
+stg.addEventListener('touchstart',e=>{
+ lastTouchT=Date.now();
+ if(e.touches.length!==1){G=null;return}
+ const t=e.touches[0];const g=gStart(t.clientX,t.clientY,e.target,true);
+ if(g&&!g.corner)e.stopPropagation();   // library only sees touches that start on a page corner
+},{capture:true,passive:true});
+window.addEventListener('touchend',e=>{lastTouchT=Date.now();if(G&&G.touch&&e.touches.length===0){const t=e.changedTouches[0];gEnd(t.clientX,t.clientY)}},{capture:true,passive:true});
+window.addEventListener('touchcancel',()=>{G=null},{capture:true,passive:true});
+stg.addEventListener('mousedown',e=>{
+ if(Date.now()-lastTouchT<900){e.stopPropagation();return}   // ignore iOS compatibility mouse events after touches
+ if(e.button!==0)return;const g=gStart(e.clientX,e.clientY,e.target,false);
+ if(g&&!g.corner)e.stopPropagation();
+},{capture:true});
+window.addEventListener('mouseup',e=>{if(G&&!G.touch)gEnd(e.clientX,e.clientY)});
+/* page-turn animation setting */
+function setFx(v,quiet){if(!['curl','slide','none'].includes(v))v='curl';const ch=v!==S.fx;S.fx=v;save();$$('#fxSeg button').forEach(b=>b.classList.toggle('on',b.dataset.fx===v));if(ch&&flip){pw=0;rebuild(true)}if(ch&&!quiet)toast({curl:'พลิกหน้าแบบม้วนกระดาษ',slide:'พลิกหน้าแบบเลื่อน',none:'พลิกหน้าทันที (ไม่มีแอนิเมชัน)'}[v])}
+$$('#fxSeg button').forEach(b=>b.onclick=e=>{e.stopPropagation();setFx(b.dataset.fx)});
+/* fit to the real visible viewport (iOS dynamic toolbars, standalone, keyboard) */
+function fitApp(){
+ const vv=window.visualViewport;let h=window.innerHeight;
+ const a=document.activeElement;const typing=a&&/^(input|textarea)$/i.test(a.tagName);
+ if(vv&&Math.abs((vv.scale||1)-1)<.01&&!typing)h=Math.min(h,vv.height);
+ const app=$('#app');app.style.bottom='auto';app.style.height=Math.round(h)+'px';
+}
+fitApp();
+if(window.visualViewport){visualViewport.addEventListener('resize',()=>{fitApp();rebuild()})}
+if(window.ResizeObserver){new ResizeObserver(()=>rebuild()).observe(stg)}
 
 /* drawer */
 
@@ -1106,11 +1209,11 @@ document.addEventListener('keydown',e=>{
  else if(k==='m')cycleTheme();else if(k==='s')$('#bSound').click();
  else if(k==='f')toggleFull();else if(k==='?')$('#helpModal').classList.add('show');
 });
-let rt;function rebuild(now){clearTimeout(rt);rt=setTimeout(()=>{if(flip&&flip.getState()!=='read'){rebuild();return}buildBook();if(searchQ)setSearchQ(searchQ)},now?0:200)}
-window.addEventListener('resize',()=>{rebuild();if(document.body.classList.contains('hl-mode'))setTimeout(placeOverlay,250)});
+let rt;function rebuild(now){clearTimeout(rt);rt=setTimeout(()=>{if(!pdf)return;if(flip&&flip.getState()!=='read'){rebuild();return}buildBook();if(searchQ)setSearchQ(searchQ)},now?0:200)}
+window.addEventListener('resize',()=>{fitApp();rebuild();if(document.body.classList.contains('hl-mode'))setTimeout(placeOverlay,250)});
 document.addEventListener('fullscreenchange',()=>rebuild());
 document.addEventListener('webkitfullscreenchange',()=>rebuild());
-window.addEventListener('orientationchange',()=>setTimeout(()=>rebuild(true),250));
+window.addEventListener('orientationchange',()=>{setTimeout(()=>{fitApp();rebuild(true)},250);setTimeout(()=>{fitApp();rebuild(true)},700)});
 /* iOS: block page pinch-zoom (mapped to app zoom) & double-tap zoom; unlock WebAudio on first touch */
 ['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
 let lastTouchEnd=0;
@@ -1122,12 +1225,12 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&actx&&act
 
 /* boot */
 async function boot(){
- setTheme(S.theme);setSound(S.sound!==false);S.zoom=clampZ(+S.zoom||1);$('#zoomVal').textContent=Math.round(S.zoom*100)+'%';
+ setTheme(S.theme);setSound(S.sound!==false);S.zoom=1;save();updateZoomUI();setFx(S.fx||'curl',true);   // always open at 'fit'
  const wsrc=document.getElementById('pdfWorkerSrc').textContent;
  pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([wsrc],{type:'text/javascript'}));
  pdf=await pdfjsLib.getDocument({data:b64bytes(),isEvalSupported:false}).promise;
- buildBook();renderMarks();renderNotes();renderHL();
- setTimeout(()=>{const s=$('#splash');s.style.opacity=0;setTimeout(()=>s.remove(),500)},300);
+ pw=0;buildBook();renderMarks();renderNotes();renderHL();
+ setTimeout(()=>{const s=$('#splash');s.style.opacity=0;s.style.pointerEvents='none';setTimeout(()=>s.remove(),500)},300);
  if(S.page>0)setTimeout(()=>toast('เปิดต่อจากที่อ่านค้างไว้ — '+label(S.page)),800);
  if(window.__PWA){
   if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
@@ -1143,7 +1246,7 @@ async function boot(){
   if(IS_IOS&&!STANDALONE&&!seen)setTimeout(()=>$('#installTip').classList.add('show'),2500);
  }
  $('#installClose').onclick=()=>{$('#installTip').classList.remove('show');try{localStorage.setItem('ebook:installTipSeen','1')}catch(e){}};
- window.__ebook={get flip(){return flip},go,next,prev,doSearch,visibleIdx,cache,thumbs,state:()=>S,APP_VERSION,setZoom,get zoom(){return S.zoom},hl:()=>S.hl,get searchQ(){return searchQ},IS_IOS,STANDALONE,FS_OK,targetW};
+ window.__ebook={get flip(){return flip},go,next,prev,doSearch,visibleIdx,cache,thumbs,state:()=>S,APP_VERSION,setZoom,setFx,turn,get zoom(){return S.zoom},get single(){return single},hl:()=>S.hl,get searchQ(){return searchQ},IS_IOS,STANDALONE,FS_OK,targetW};
 }
 boot().catch(err=>{console.error(err);$('#splash').innerHTML='<div style="padding:20px;text-align:center">เปิดหนังสือไม่สำเร็จ: '+esc(String(err))+'</div>'});
 })();
